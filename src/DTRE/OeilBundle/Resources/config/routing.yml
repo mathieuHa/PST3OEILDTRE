@@ -1,3 +1,0 @@
-dtre_oeil_homepage:
-    path:     /
-    defaults: { _controller: DTREOeilBundle:Default:index }

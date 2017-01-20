@@ -1,7 +1,12 @@
-dtre_oeil:
-    resource: "@DTREOeilBundle/Resources/config/routing.xml"
-    prefix:   /
+sensors:
+    type:     rest
+    resource: DTRE\OeilBundle\Controller\SensorController
 
-app:
-    resource: "@AppBundle/Controller/"
+users:
+    type:     rest
+    resource: DTRE\OeilBundle\Controller\UserController
+
+easy_admin_bundle:
+    resource: "@EasyAdminBundle/Controller/"
     type:     annotation
+    prefix:   /admin

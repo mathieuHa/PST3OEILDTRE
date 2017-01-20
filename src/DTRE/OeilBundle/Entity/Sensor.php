@@ -93,5 +93,9 @@ class Sensor
     {
         return $this->date;
     }
-}
 
+    public function __construct()
+    {
+        $this->setDate(new \DateTime());
+    }
+}

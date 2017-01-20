@@ -1,0 +1,8 @@
+easy_admin:
+    entities:
+        Sensors:
+            label: 'Sensors'
+            class: DTRE\OeilBundle\Entity\Sensor
+        Users:
+            label: 'Users'
+            class: DTRE\OeilBundle\Entity\User

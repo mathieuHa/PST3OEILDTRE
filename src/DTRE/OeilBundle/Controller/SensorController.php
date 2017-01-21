@@ -16,7 +16,7 @@ use FOS\RestBundle\Controller\Annotations as Rest; // alias pour toutes les anno
 class SensorController extends Controller
 {
     /**
-     * @Rest\View()
+     * @Rest\View(statusCode=Response::HTTP_OK)
      * @Rest\Get("/sensors")
      */
     public function getSensorsAction(Request $request)
@@ -30,7 +30,7 @@ class SensorController extends Controller
     }
 
     /**
-     * @Rest\View()
+     * @Rest\View(statusCode=Response::HTTP_OK)
      * @Rest\Get("/sensors/{id}")
      */
     public function getSensorAction(Request $request)
@@ -67,6 +67,26 @@ class SensorController extends Controller
         }
         else {
             return $form;
+        }
+    }
+
+    /**
+     * @Rest\View(statusCode=Response::HTTP_NO_CONTENT)
+     * @Rest\Delete("/sensors/{id}")
+     */
+    public function deleteUsersAction(Request $request)
+    {
+        $sensor = $this
+            ->getDoctrine()
+            ->getRepository('DTREOeilBundle:Sensor')
+            ->find($request->get('id'));
+
+        if ($sensor){
+            $em = $this
+                ->getDoctrine()
+                ->getManager();
+            $em->remove($sensor);
+            $em->flush();
         }
     }
 }

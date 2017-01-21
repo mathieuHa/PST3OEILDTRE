@@ -16,7 +16,7 @@ use FOS\RestBundle\Controller\Annotations as Rest; // alias pour toutes les anno
 class UserController extends Controller
 {
     /**
-     * @Rest\View()
+     * @Rest\View(statusCode=Response::HTTP_OK)
      * @Rest\Get("/users")
      */
     public function getUsersAction(Request $request)
@@ -30,7 +30,7 @@ class UserController extends Controller
     }
 
     /**
-     * @Rest\View()
+     * @Rest\View(statusCode=Response::HTTP_OK)
      * @Rest\Get("/users/{id}")
      */
     public function getUserAction(Request $request)
@@ -41,7 +41,7 @@ class UserController extends Controller
             ->find($request->get('id'));
 
         if (NULL ===$user) {
-            return new JsonResponse(['message' => 'Sensor not found'], Response::HTTP_NOT_FOUND);
+            return new JsonResponse(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
         }
 
         return $user;
@@ -72,5 +72,25 @@ class UserController extends Controller
         else {
             return $form;
         }
+    }
+
+    /**
+     * @Rest\View(statusCode=Response::HTTP_NO_CONTENT)
+     * @Rest\Delete("/users/{id}")
+     */
+    public function deleteUsersAction(Request $request)
+    {
+        $user = $this
+            ->getDoctrine()
+            ->getRepository('DTREOeilBundle:User')
+            ->find($request->get('id'));
+        if ($user){
+            $em = $this
+                ->getDoctrine()
+                ->getManager();
+            $em->remove($user);
+            $em->flush();
+        }
+
     }
 }

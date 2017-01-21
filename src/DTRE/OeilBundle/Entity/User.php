@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * User
  *
- * @ORM\Table(name="user")
+ * @ORM\Table(name="user", uniqueConstraints={@ORM\UniqueConstraint(name="user_mail_unique",columns={"mail"})})
  * @ORM\Entity(repositoryClass="DTRE\OeilBundle\Repository\UserRepository")
  */
 class User

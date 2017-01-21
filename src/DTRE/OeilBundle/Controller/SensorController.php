@@ -2,6 +2,8 @@
 
 namespace DTRE\OeilBundle\Controller;
 
+use DTRE\OeilBundle\Entity\Sensor;
+use DTRE\OeilBundle\Form\SensorType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -43,5 +45,28 @@ class SensorController extends Controller
         }
 
         return $sensor;
+    }
+
+    /**
+     * @Rest\View(statusCode=Response::HTTP_CREATED)
+     * @Rest\Post("/sensors")
+     */
+    public function postUsersAction(Request $request)
+    {
+        $sensor = new Sensor();
+        $form = $this->createForm(SensorType::class, $sensor);
+        $form->submit($request->request->all());
+
+        if ($form->isValid()){
+            $em = $this
+                ->getDoctrine()
+                ->getManager();
+            $em->persist($sensor);
+            $em->flush();
+            return $sensor;
+        }
+        else {
+            return $form;
+        }
     }
 }

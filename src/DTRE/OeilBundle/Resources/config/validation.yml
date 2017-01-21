@@ -1,0 +1,13 @@
+DTRE\OeilBundle\Entity\User:
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: mail
+    properties:
+        nom:
+            - NotBlank: ~
+            - Type: string
+        prenom:
+            - NotBlank: ~
+            - Type: string
+        mail:
+            - NotBlank: ~
+            - Type: string

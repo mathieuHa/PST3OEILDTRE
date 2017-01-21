@@ -2,6 +2,8 @@
 
 namespace DTRE\OeilBundle\Controller;
 
+use DTRE\OeilBundle\Entity\User;
+use DTRE\OeilBundle\Form\UserType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -43,5 +45,32 @@ class UserController extends Controller
         }
 
         return $user;
+    }
+
+    /**
+     * @Rest\View(statusCode=Response::HTTP_CREATED)
+     * @Rest\Post("/users")
+     */
+    public function postUsersAction(Request $request)
+    {
+        $user = new User();
+        /*$user
+            ->setNom($request->get('nom'))
+            ->setPrenom($request->get('prenom'))
+            ->setMail($request->get('mail'));*/
+        $form = $this->createForm(UserType::class, $user);
+
+        $form->submit($request->request->all());
+        if ($form->isValid()){
+            $em = $this
+                ->getDoctrine()
+                ->getManager();
+            $em->persist($user);
+            $em->flush();
+            return $user;
+        }
+        else {
+            return $form;
+        }
     }
 }

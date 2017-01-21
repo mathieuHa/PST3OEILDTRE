@@ -91,6 +91,36 @@ class UserController extends Controller
             $em->remove($user);
             $em->flush();
         }
+    }
 
+    /**
+     * @Rest\View(statusCode=Response::HTTP_OK)
+     * @Rest\Put("/users/{id}")
+     */
+    public function putUsersAction(Request $request)
+    {
+        $user = $this
+            ->getDoctrine()
+            ->getRepository('DTREOeilBundle:User')
+            ->find($request->get('id'));
+
+        if (NULL ===$user) {
+            return new JsonResponse(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        $form = $this->createForm(UserType::class, $user);
+
+        $form->submit($request->request->all());
+        if ($form->isValid()){
+            $em = $this
+                ->getDoctrine()
+                ->getManager();
+            $em->persist($user);
+            $em->flush();
+            return $user;
+        }
+        else {
+            return $form;
+        }
     }
 }

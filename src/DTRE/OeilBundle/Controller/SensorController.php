@@ -51,7 +51,7 @@ class SensorController extends Controller
      * @Rest\View(statusCode=Response::HTTP_CREATED)
      * @Rest\Post("/sensors")
      */
-    public function postUsersAction(Request $request)
+    public function postSensorsAction(Request $request)
     {
         $sensor = new Sensor();
         $form = $this->createForm(SensorType::class, $sensor);
@@ -74,7 +74,7 @@ class SensorController extends Controller
      * @Rest\View(statusCode=Response::HTTP_NO_CONTENT)
      * @Rest\Delete("/sensors/{id}")
      */
-    public function deleteUsersAction(Request $request)
+    public function deleteSensorsAction(Request $request)
     {
         $sensor = $this
             ->getDoctrine()
@@ -87,6 +87,37 @@ class SensorController extends Controller
                 ->getManager();
             $em->remove($sensor);
             $em->flush();
+        }
+    }
+
+    /**
+     * @Rest\View(statusCode=Response::HTTP_OK)
+     * @Rest\Put("/sensors/{id}")
+     */
+    public function putSensorsAction(Request $request)
+    {
+        $sensor = $this
+            ->getDoctrine()
+            ->getRepository('DTREOeilBundle:Sensor')
+            ->find($request->get('id'));
+
+        if (NULL ===$sensor) {
+            return new JsonResponse(['message' => 'Sensor not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        $form = $this->createForm(SensorType::class, $sensor);
+
+        $form->submit($request->request->all());
+        if ($form->isValid()){
+            $em = $this
+                ->getDoctrine()
+                ->getManager();
+            $em->persist($sensor);
+            $em->flush();
+            return $sensor;
+        }
+        else {
+            return $form;
         }
     }
 }

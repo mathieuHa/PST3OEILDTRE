@@ -4,8 +4,7 @@ namespace DTRE\OeilBundle\Controller;
 
 use DTRE\OeilBundle\Entity\User;
 use DTRE\OeilBundle\Form\UserType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use FOS\RestBundle\View\View;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,7 +18,7 @@ class UserController extends Controller
      * @Rest\View(statusCode=Response::HTTP_OK)
      * @Rest\Get("/users")
      */
-    public function getUsersAction(Request $request)
+    public function getUsersAction()
     {
         $users = $this
             ->getDoctrine()
@@ -136,7 +135,7 @@ class UserController extends Controller
             ->find($request->get('id'));
 
         if (NULL ===$user) {
-            return new JsonResponse(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
+            return View::create(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
         }
 
         $form = $this->createForm(UserType::class, $user);

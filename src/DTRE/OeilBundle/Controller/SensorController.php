@@ -4,8 +4,7 @@ namespace DTRE\OeilBundle\Controller;
 
 use DTRE\OeilBundle\Entity\Sensor;
 use DTRE\OeilBundle\Form\SensorType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use FOS\RestBundle\View\View;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,7 +18,7 @@ class SensorController extends Controller
      * @Rest\View(statusCode=Response::HTTP_OK)
      * @Rest\Get("/sensors")
      */
-    public function getSensorsAction(Request $request)
+    public function getSensorsAction()
     {
         $sensors = $this
             ->getDoctrine()
@@ -133,7 +132,7 @@ class SensorController extends Controller
             ->find($request->get('id'));
 
         if (NULL ===$sensor) {
-            return new JsonResponse(['message' => 'Sensor not found'], Response::HTTP_NOT_FOUND);
+            return View::create(['message' => 'Sensor not found'], Response::HTTP_NOT_FOUND);
         }
 
         $form = $this->createForm(SensorType::class, $sensor);

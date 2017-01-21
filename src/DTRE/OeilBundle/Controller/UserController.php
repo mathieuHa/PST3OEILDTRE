@@ -6,7 +6,6 @@ use DTRE\OeilBundle\Entity\User;
 use DTRE\OeilBundle\Form\UserType;
 use FOS\RestBundle\View\View;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations as Rest; // alias pour toutes les annotations
@@ -40,7 +39,7 @@ class UserController extends Controller
             ->find($request->get('id'));
 
         if (NULL ===$user) {
-            return new JsonResponse(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
+            return View::create(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
         }
 
         return $user;
@@ -104,7 +103,7 @@ class UserController extends Controller
             ->find($request->get('id'));
 
         if (NULL ===$user) {
-            return new JsonResponse(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
+            return View::create(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
         }
 
         $form = $this->createForm(UserType::class, $user);

@@ -120,4 +120,35 @@ class SensorController extends Controller
             return $form;
         }
     }
+
+    /**
+     * @Rest\View(statusCode=Response::HTTP_OK)
+     * @Rest\Patch("/sensors/{id}")
+     */
+    public function patchSensorsAction(Request $request)
+    {
+        $sensor = $this
+            ->getDoctrine()
+            ->getRepository('DTREOeilBundle:Sensor')
+            ->find($request->get('id'));
+
+        if (NULL ===$sensor) {
+            return new JsonResponse(['message' => 'Sensor not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        $form = $this->createForm(SensorType::class, $sensor);
+
+        $form->submit($request->request->all(), false);
+        if ($form->isValid()){
+            $em = $this
+                ->getDoctrine()
+                ->getManager();
+            $em->persist($sensor);
+            $em->flush();
+            return $sensor;
+        }
+        else {
+            return $form;
+        }
+    }
 }

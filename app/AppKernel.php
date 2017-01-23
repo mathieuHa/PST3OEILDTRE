@@ -18,7 +18,8 @@ class AppKernel extends Kernel
             new DTRE\OeilBundle\DTREOeilBundle(),
             new JavierEguiluz\Bundle\EasyAdminBundle\EasyAdminBundle(),
             new FOS\RestBundle\FOSRestBundle(),
-
+            new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
+            new CMEN\GoogleChartsBundle\CMENGoogleChartsBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

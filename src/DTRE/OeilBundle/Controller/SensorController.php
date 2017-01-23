@@ -8,7 +8,7 @@ use FOS\RestBundle\View\View;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use FOS\RestBundle\Controller\Annotations as Rest; // alias pour toutes les annotations
+use FOS\RestBundle\Controller\Annotations as Rest;
 
 
 class SensorController extends Controller

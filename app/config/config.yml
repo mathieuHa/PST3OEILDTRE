@@ -81,3 +81,11 @@ fos_rest:
     format_listener:
         rules:
             - { path: '^/', priorities: ['json'], fallback_format: 'json' }
+
+security:
+
+    # Ajout d'un encoder pour notre entité USer
+    encoders:
+        AppBundle\Entity\User:
+            algorithm: bcrypt
+            cost: 12

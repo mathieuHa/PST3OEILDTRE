@@ -52,14 +52,15 @@ class UserController extends Controller
     public function postUsersAction(Request $request)
     {
         $user = new User();
-        /*$user
-            ->setNom($request->get('nom'))
-            ->setPrenom($request->get('prenom'))
-            ->setMail($request->get('mail'));*/
-        $form = $this->createForm(UserType::class, $user);
+
+        $form = $this->createForm(UserType::class, $user, ['validation_groups'=>['Default', 'New']]);
 
         $form->submit($request->request->all());
         if ($form->isValid()){
+            $encoder = $this->get('security.password_encoder');
+            // le mot de passe en claire est encodé avant la sauvegarde
+            $encoded = $encoder->encodePassword($user, $user->getPlainPassword());
+            $user->setPassword($encoded);
             $em = $this
                 ->getDoctrine()
                 ->getManager();
@@ -105,11 +106,16 @@ class UserController extends Controller
         if (NULL ===$user) {
             return View::create(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
         }
-
-        $form = $this->createForm(UserType::class, $user);
+        $options = ['validation_groups'=>['Default', 'FullUpdate']];
+        $form = $this->createForm(UserType::class, $user, $options);
 
         $form->submit($request->request->all());
         if ($form->isValid()){
+            if (!empty($user->getPlainPassword())) {
+                $encoder = $this->get('security.password_encoder');
+                $encoded = $encoder->encodePassword($user, $user->getPlainPassword());
+                $user->setPassword($encoded);
+            }
             $em = $this
                 ->getDoctrine()
                 ->getManager();

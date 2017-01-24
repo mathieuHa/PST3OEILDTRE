@@ -57,7 +57,7 @@ class SensorController extends Controller
 
     /**
      * @Rest\View(statusCode=Response::HTTP_OK)
-     * @Rest\Get("/sensors/month")
+     * @Rest\Get("/sensors/week")
      */
     public function getSensorsWeekAction(Request $request)
     {

@@ -46,8 +46,8 @@ class SensorRepository extends \Doctrine\ORM\EntityRepository
 
     public function getByMonth(\Datetime $date)
     {
-        $from = new \DateTime($date->format("Y-m")."-0 00:00:00");
-        $to   = new \DateTime($date->format("Y-m")."-0 00:00:00");
+        $from = new \DateTime($date->format("Y-m")." 00:00:00");
+        $to   = new \DateTime($date->format("Y-m")." 00:00:00");
         $interval = new DateInterval('P0Y1M0DT0H0M0S'); //1min
         $to->add($interval);
 

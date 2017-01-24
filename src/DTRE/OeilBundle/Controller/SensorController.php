@@ -29,6 +29,20 @@ class SensorController extends Controller
 
     /**
      * @Rest\View(statusCode=Response::HTTP_OK)
+     * @Rest\Get("/sensors/day")
+     */
+    public function getSensorsDayAction(Request $request)
+    {
+        $sensors = $this
+            ->getDoctrine()
+            ->getRepository('DTREOeilBundle:Sensor')
+            ->getByDate(new \DateTime('2017-01-01'));
+
+        return $sensors;
+    }
+
+    /**
+     * @Rest\View(statusCode=Response::HTTP_OK)
      * @Rest\Get("/sensors/{id}")
      */
     public function getSensorAction(Request $request)

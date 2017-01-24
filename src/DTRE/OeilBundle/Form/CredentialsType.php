@@ -3,18 +3,17 @@
 namespace DTRE\OeilBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class UserType extends AbstractType
+class credentialsType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('nom')->add('prenom')->add('mail', EmailType::class)->add('plainpassword')      ;
+        $builder->add('login')->add('password')        ;
     }
     
     /**
@@ -23,8 +22,7 @@ class UserType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'DTRE\OeilBundle\Entity\User',
-            'csrf_protection' => false
+            'data_class' => 'DTRE\OeilBundle\Entity\credentials'
         ));
     }
 
@@ -33,7 +31,7 @@ class UserType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'dtre_oeilbundle_user';
+        return 'dtre_oeilbundle_credentials';
     }
 
 

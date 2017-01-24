@@ -94,8 +94,14 @@ class Sensor
         return $this->date;
     }
 
-    public function __construct()
+    /*public function __construct()
     {
         $this->setDate(new \DateTime());
+    }*/
+
+    public function __construct($date, $value)
+    {
+        $this->setDate($date);
+        $this->setValue($value);
     }
 }

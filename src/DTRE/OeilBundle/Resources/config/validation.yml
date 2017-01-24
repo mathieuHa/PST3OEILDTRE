@@ -11,9 +11,6 @@ DTRE\OeilBundle\Entity\User:
         mail:
             - NotBlank: ~
             - Type: string
-        plainPassword:
-                    - NotBlank: ~ { groups: [New, FullUpdate] }
-                    - Type: string
-                    - Length:
-                        min: 4
-                        max: 50
+        plainpassword:
+            - NotBlank: ~
+            - Type: string

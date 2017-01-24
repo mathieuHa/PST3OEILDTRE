@@ -36,7 +36,35 @@ class SensorController extends Controller
         $sensors = $this
             ->getDoctrine()
             ->getRepository('DTREOeilBundle:Sensor')
-            ->getByDate(new \DateTime('2017-01-01'));
+            ->getByDay(new \DateTime('2017-01-01'));
+
+        return $sensors;
+    }
+
+    /**
+     * @Rest\View(statusCode=Response::HTTP_OK)
+     * @Rest\Get("/sensors/month")
+     */
+    public function getSensorsMonthAction(Request $request)
+    {
+        $sensors = $this
+            ->getDoctrine()
+            ->getRepository('DTREOeilBundle:Sensor')
+            ->getByMonth(new \DateTime('2017-02'));
+
+        return $sensors;
+    }
+
+    /**
+     * @Rest\View(statusCode=Response::HTTP_OK)
+     * @Rest\Get("/sensors/month")
+     */
+    public function getSensorsWeekAction(Request $request)
+    {
+        $sensors = $this
+            ->getDoctrine()
+            ->getRepository('DTREOeilBundle:Sensor')
+            ->getByWeek(new \DateTime('2017-01-10'));
 
         return $sensors;
     }

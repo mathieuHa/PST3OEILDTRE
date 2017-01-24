@@ -1,7 +1,7 @@
 <?php
 
 namespace DTRE\OeilBundle\Repository;
-
+use DateInterval;
 /**
  * SensorRepository
  *
@@ -10,10 +10,46 @@ namespace DTRE\OeilBundle\Repository;
  */
 class SensorRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function getByDate(\Datetime $date)
+    public function getByDay(\Datetime $date)
     {
         $from = new \DateTime($date->format("Y-m-d")." 00:00:00");
         $to   = new \DateTime($date->format("Y-m-d")." 23:59:59");
+
+        $qb = $this->createQueryBuilder("e");
+        $qb
+            ->andWhere('e.date BETWEEN :from AND :to')
+            ->setParameter('from', $from )
+            ->setParameter('to', $to)
+        ;
+        $result = $qb->getQuery()->getResult();
+
+        return $result;
+    }
+
+    public function getByWeek(\Datetime $date)
+    {
+        $from = new \DateTime($date->format("Y-m-d")." 00:00:00");
+        $to   = new \DateTime($date->format("Y-m-d")." 00:00:00");
+        $interval = new DateInterval('P0Y0M7DT0H0M0S'); //1min
+        $to->add($interval);
+
+        $qb = $this->createQueryBuilder("e");
+        $qb
+            ->andWhere('e.date BETWEEN :from AND :to')
+            ->setParameter('from', $from )
+            ->setParameter('to', $to)
+        ;
+        $result = $qb->getQuery()->getResult();
+
+        return $result;
+    }
+
+    public function getByMonth(\Datetime $date)
+    {
+        $from = new \DateTime($date->format("Y-m")."-0 00:00:00");
+        $to   = new \DateTime($date->format("Y-m")."-0 00:00:00");
+        $interval = new DateInterval('P0Y1M0DT0H0M0S'); //1min
+        $to->add($interval);
 
         $qb = $this->createQueryBuilder("e");
         $qb

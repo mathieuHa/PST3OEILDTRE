@@ -6,6 +6,10 @@ users:
     type:     rest
     resource: DTRE\OeilBundle\Controller\UserController
 
+auth-tokens:
+    type:     rest
+    resource: DTRE\OeilBundle\Controller\AuthTokenController
+
 easy_admin_bundle:
     resource: "@EasyAdminBundle/Controller/"
     type:     annotation

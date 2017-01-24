@@ -5,12 +5,12 @@ namespace DTRE\OeilBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * credentials
+ * Credentials
  *
  * @ORM\Table(name="credentials")
- * @ORM\Entity(repositoryClass="DTRE\OeilBundle\Repository\credentialsRepository")
+ * @ORM\Entity(repositoryClass="DTRE\OeilBundle\Repository\CredentialsRepository")
  */
-class credentials
+class Credentials
 {
     /**
      * @var int

@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class credentialsType extends AbstractType
+class CredentialsType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -22,7 +22,8 @@ class credentialsType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'DTRE\OeilBundle\Entity\credentials'
+            'data_class' => 'DTRE\OeilBundle\Entity\Credentials',
+            'csrf_protection' => false
         ));
     }
 

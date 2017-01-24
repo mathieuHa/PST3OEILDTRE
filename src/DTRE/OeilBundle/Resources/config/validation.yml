@@ -14,3 +14,12 @@ DTRE\OeilBundle\Entity\User:
         plainpassword:
             - NotBlank: ~
             - Type: string
+
+DTRE\OeilBundle\Entity\Credentials:
+    properties:
+        login:
+            - NotBlank: ~
+            - Type: string
+        password:
+            - NotBlank: ~
+            - Type: string

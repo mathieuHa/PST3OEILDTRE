@@ -1,0 +1,21 @@
+DTRE\OeilBundle\Entity\User:
+    attributes:
+        id:
+            groups: ['user', 'preference', 'auth-token']
+        prenom:
+            groups: ['user', 'preference', 'auth-token']
+        nom:
+            groups: ['user', 'preference', 'auth-token']
+        mail:
+            groups: ['user', 'preference', 'auth-token']
+
+DTRE\OeilBundle\Entity\AuthToken:
+    attributes:
+        id:
+            groups: ['auth-token']
+        value:
+            groups: ['auth-token']
+        createdAt:
+            groups: ['auth-token']
+        user:
+            groups: ['auth-token']

@@ -51,7 +51,7 @@ class SensorRepository extends \Doctrine\ORM\EntityRepository
         $interval = new DateInterval('P0Y1M0DT0H0M0S'); //1min
         $to->add($interval);
 
-        $qb = $this->createQueryBuilder("e");
+        $qb = $this->createQueryBuilder("e"); 
         $qb
             ->andWhere('e.date BETWEEN :from AND :to')
             ->setParameter('from', $from )

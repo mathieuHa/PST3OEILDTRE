@@ -26,23 +26,24 @@ class AuthTokenUserProvider implements UserProviderInterface
         $this->userRepository = $userRepository;
     }
 
-    public function loadUserByUsername($username)
+    public function getAuthToken($authTokenHeader)
     {
-        return $this->userRepository->findByMail($username);
+        return $this->authTokenRepository->findOneByValue($authTokenHeader);
+    }
+
+    public function loadUserByUsername($email)
+    {
+        return $this->userRepository->findByMail($email);
     }
 
     public function refreshUser(UserInterface $user)
     {
+        // Le systéme d'authentification est stateless, on ne doit donc jamais appeler la méthode refreshUser
         throw new UnsupportedUserException();
     }
 
     public function supportsClass($class)
     {
         return 'DTRE\OeilBundle\Entity\User' === $class;
-    }
-
-    public function getAuthToken($authTokenHeader)
-    {
-        return $this->authTokenRepository->findOneByValue($authTokenHeader);
     }
 }

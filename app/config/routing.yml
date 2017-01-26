@@ -1,3 +1,7 @@
+dtre_site:
+    resource: "@DTRESiteBundle/Resources/config/routing.yml"
+    prefix:   /
+
 sensors:
     type:     rest
     resource: DTRE\OeilBundle\Controller\SensorController

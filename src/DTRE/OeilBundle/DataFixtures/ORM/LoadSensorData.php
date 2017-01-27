@@ -28,7 +28,7 @@ class LoadUserData implements FixtureInterface
             $d = clone $date;
             $sensors[$i] = new Sensor();
             $sensors[$i]->setDate($d);
-            $sensors[$i]->setValue(0);
+            $sensors[$i]->setValue(rand(-5,25));
             $date->add($interval);
         }
 

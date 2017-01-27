@@ -11,7 +11,7 @@ DTRE\OeilBundle\Entity\User:
         mail:
             - NotBlank: ~
             - Type: string
-        plainpassword:
+        plainpassword:   { groups: [New, FullUpdate] }
             - NotBlank: ~
             - Type: string
 

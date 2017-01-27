@@ -1,5 +1,4 @@
 services:
-#    dtre_oeil.example:
-#        class: DTRE\OeilBundle\Example
+#    dtre_site.example:
+#        class: DTRE\SiteBundle\Example
 #        arguments: ["@service_id", "plain_value", "%parameter%"]
-

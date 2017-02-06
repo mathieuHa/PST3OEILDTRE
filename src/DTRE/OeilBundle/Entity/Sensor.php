@@ -22,19 +22,11 @@ class Sensor
     private $id;
 
     /**
-     * @var int
+     * @var string
      *
-     * @ORM\Column(name="value", type="integer", nullable=true)
+     * @ORM\Column(name="name", type="string")
      */
-    private $value;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="date", type="datetime")
-     */
-    private $date;
-
+    private $string;
 
     /**
      * Get id
@@ -46,62 +38,28 @@ class Sensor
         return $this->id;
     }
 
+
     /**
-     * Set value
+     * Set string
      *
-     * @param integer $value
+     * @param string $string
      *
      * @return Sensor
      */
-    public function setValue($value)
+    public function setString($string)
     {
-        $this->value = $value;
+        $this->string = $string;
 
         return $this;
     }
 
     /**
-     * Get value
+     * Get string
      *
-     * @return int
+     * @return string
      */
-    public function getValue()
+    public function getString()
     {
-        return $this->value;
+        return $this->string;
     }
-
-    /**
-     * Set date
-     *
-     * @param \DateTime $date
-     *
-     * @return Sensor
-     */
-    public function setDate($date)
-    {
-        $this->date = $date;
-
-        return $this;
-    }
-
-    /**
-     * Get date
-     *
-     * @return \DateTime
-     */
-    public function getDate()
-    {
-        return $this->date;
-    }
-
-    public function __construct()
-    {
-        $this->setDate(new \DateTime());
-    }
-/*
-    public function __construct($date, $value)
-    {
-        $this->setDate($date);
-        $this->setValue($value);
-    }*/
 }

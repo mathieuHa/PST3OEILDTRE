@@ -24,15 +24,6 @@ class Data
     /**
      * @var int
      *
-     * @ORM\Column(name="id_sensor", type="integer")
-     *
-     * @ORM\ManyToMany(targetEntity="OC\PlatformBundle\Entity\Category", cascade={"persist","remove"})
-     */
-    private $Sensor;
-
-    /**
-     * @var int
-     *
      * @ORM\Column(name="value", type="integer")
      */
     private $value;
@@ -44,6 +35,11 @@ class Data
      */
     private $date;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="DTRE\OeilBundle\Entity\Sensor", inversedBy="data")
+     */
+    private $sensor;
+
 
     /**
      * Get id
@@ -53,30 +49,6 @@ class Data
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set Sensor
-     *
-     * @param integer $Sensor
-     *
-     * @return Data
-     */
-    public function setSensor($Sensor)
-    {
-        $this->Sensor = $Sensor;
-
-        return $this;
-    }
-
-    /**
-     * Get Sensor
-     *
-     * @return int
-     */
-    public function getSensor()
-    {
-        return $this->Sensor;
     }
 
     /**
@@ -125,5 +97,29 @@ class Data
     public function getDate()
     {
         return $this->date;
+    }
+
+    /**
+     * Set sensor
+     *
+     * @param \DTRE\OeilBundle\Entity\Sensor $sensor
+     *
+     * @return Data
+     */
+    public function setSensor(\DTRE\OeilBundle\Entity\Sensor $sensor = null)
+    {
+        $this->sensor = $sensor;
+
+        return $this;
+    }
+
+    /**
+     * Get sensor
+     *
+     * @return \DTRE\OeilBundle\Entity\Sensor
+     */
+    public function getSensor()
+    {
+        return $this->sensor;
     }
 }

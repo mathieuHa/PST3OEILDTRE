@@ -22,51 +22,48 @@ class LoadDataData implements FixtureInterface
         $date = new \DateTime('2017-01-01 00:00:00', new DateTimeZone('Europe/Paris'));
         $interval = new DateInterval('P0Y0M0DT0H10M0S'); //1min
         $max = 10000;
-        $nbrsensors = 4;
 
         $s1 = new Sensor();
         $s2 = new Sensor();
         $s3 = new Sensor();
         $s4 = new Sensor();
-        $s1->setName("température");
+        $s1->setName("temperature");
         $s2->setName("humidité");
         $s3->setName("capteur 3");
         $s4->setName("capteur 4");
-        $sensors = [$max*$nbrsensors];
+        $data1 = [$max];
+        $data2 = [$max];
+        $data3 = [$max];
+        $data4 = [$max];
         $d = null;
         for ($i=0; $i<$max; $i++){
             $d = clone $date;
-            $sensors[$i] = new Data();
-            $sensors[$i]->setSensor($s1);
-            $sensors[$i]->setDate($d);
-            $sensors[$i]->setValue(rand(-5,25));
-            $date->add($interval);
+            $data1[$i] = new Data();
+            $data1[$i]->setDate($d);
+            $data1[$i]->setValue(rand(-5,25));
+            $s1->addDatum($data1[$i]);
             $d = clone $date;
-            $sensors[$i] = new Data();
-            $sensors[$i]->setSensor($s2);
-            $sensors[$i]->setDate($d);
-            $sensors[$i]->setValue(rand(-5,25));
-            $date->add($interval);
+            $data2[$i] = new Data();
+            $data2[$i]->setDate($d);
+            $data2[$i]->setValue(rand(-5,25));
+            $s2->addDatum($data2[$i]);
             $d = clone $date;
-            $sensors[$i] = new Data();
-            $sensors[$i]->setSensor($s3);
-            $sensors[$i]->setDate($d);
-            $sensors[$i]->setValue(rand(-5,25));
-            $date->add($interval);
+            $data4[$i] = new Data();
+            $data4[$i]->setDate($d);
+            $data4[$i]->setValue(rand(-5,25));
+            $s4->addDatum($data4[$i]);
             $d = clone $date;
-            $sensors[$i] = new Data();
-            $sensors[$i]->setSensor($s4);
-            $sensors[$i]->setDate($d);
-            $sensors[$i]->setValue(rand(-5,25));
+            $data3[$i] = new Data();
+            $data3[$i]->setDate($d);
+            $data3[$i]->setValue(rand(-5,25));
             $date->add($interval);
+            $s3->addDatum($data3[$i]);
         }
 
-        foreach ($sensors as $sensor) {
-            foreach ($sensor as $data){
-                $manager->persist($data);
-            }
-        }
-
+        $manager->persist($s1);
+        $manager->persist($s2);
+        $manager->persist($s3);
+        $manager->persist($s4);
         $manager->flush();
     }
 }

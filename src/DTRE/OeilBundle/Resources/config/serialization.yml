@@ -19,3 +19,10 @@ DTRE\OeilBundle\Entity\AuthToken:
             groups: ['auth-token']
         user:
             groups: ['auth-token']
+
+DTRE\OeilBundle\Entity\Data:
+    attributes:
+        value:
+            groups: ['data']
+        date:
+            groups: ['data']

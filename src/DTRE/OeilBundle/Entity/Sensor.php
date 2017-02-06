@@ -28,6 +28,12 @@ class Sensor
      */
     private $name;
 
+
+    /**
+     * @ORM\OneToMany(targetEntity="DTRE\OeilBundle\Entity\Data", mappedBy="sensor" ,cascade={"persist", "remove"})
+     */
+    private $data;
+
     /**
      * Get id
      *
@@ -61,5 +67,48 @@ class Sensor
     public function getName()
     {
         return $this->name;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->data = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add datum
+     *
+     * @param \DTRE\OeilBundle\Entity\Data $datum
+     *
+     * @return Sensor
+     */
+    public function addDatum(\DTRE\OeilBundle\Entity\Data $datum)
+    {
+        $this->data[] = $datum;
+
+        $datum->setSensor($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove datum
+     *
+     * @param \DTRE\OeilBundle\Entity\Data $datum
+     */
+    public function removeDatum(\DTRE\OeilBundle\Entity\Data $datum)
+    {
+        $this->data->removeElement($datum);
+    }
+
+    /**
+     * Get data
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getData()
+    {
+        return $this->data;
     }
 }

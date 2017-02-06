@@ -17,21 +17,25 @@ class SensorController extends Controller
 {
     /**
      * @Rest\View(statusCode=Response::HTTP_OK)
-     * @Rest\Get("/sensors")
+     * @Rest\Get("/sensors/{id}")
      */
-    public function getSensorsAction()
+    public function getSensorsAction(Request $request)
     {
-        $sensors = $this
+        $em = $this
             ->getDoctrine()
+            ->getManager();
+        $sensors = $em
             ->getRepository('DTREOeilBundle:Sensor')
-            ->findAll();
+            ->find($request->get('id'));
 
-        return $sensors;
+        //$data = $sensors->getData();
+
+        return $sensors->getData();
     }
 
     /**
-     * @Rest\View(statusCode=Response::HTTP_OK)
-     * @Rest\Get("/sensors/day")
+     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"data"})
+     * @Rest\Get("/sensors/{id}/day")
      * @Rest\QueryParam(name="day", requirements="\d+", default="1", description="jour")
      * @Rest\QueryParam(name="month", requirements="\d+", default="1", description="month")
      * @Rest\QueryParam(name="year", requirements="\d+", default="2017", description="year")
@@ -41,10 +45,14 @@ class SensorController extends Controller
         $day = $paramFetcher->get('day');
         $month = $paramFetcher->get('month');
         $year = $paramFetcher->get('year');
-        $sensors = $this
+
+        $em = $this
             ->getDoctrine()
-            ->getRepository('DTREOeilBundle:Sensor')
-            ->getByDay(new \DateTime($year.'-'.$month.'-'.$day));
+            ->getManager();
+        $id =$request->get('id');
+        $sensors = $em
+            ->getRepository('DTREOeilBundle:Data')
+            ->getByDay($id, new \DateTime($year.'-'.$month.'-'.$day));
 
         return $sensors;
     }

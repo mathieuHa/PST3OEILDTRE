@@ -25,8 +25,10 @@ class Data
      * @var int
      *
      * @ORM\Column(name="id_sensor", type="integer")
+     *
+     * @ORM\ManyToMany(targetEntity="OC\PlatformBundle\Entity\Category", cascade={"persist","remove"})
      */
-    private $idSensor;
+    private $Sensor;
 
     /**
      * @var int
@@ -54,27 +56,27 @@ class Data
     }
 
     /**
-     * Set idSensor
+     * Set Sensor
      *
-     * @param integer $idSensor
+     * @param integer $Sensor
      *
      * @return Data
      */
-    public function setIdSensor($idSensor)
+    public function setSensor($Sensor)
     {
-        $this->idSensor = $idSensor;
+        $this->Sensor = $Sensor;
 
         return $this;
     }
 
     /**
-     * Get idSensor
+     * Get Sensor
      *
      * @return int
      */
-    public function getIdSensor()
+    public function getSensor()
     {
-        return $this->idSensor;
+        return $this->Sensor;
     }
 
     /**

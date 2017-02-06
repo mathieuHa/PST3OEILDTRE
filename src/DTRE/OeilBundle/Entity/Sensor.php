@@ -26,7 +26,7 @@ class Sensor
      *
      * @ORM\Column(name="name", type="string")
      */
-    private $string;
+    private $name;
 
     /**
      * Get id
@@ -40,26 +40,26 @@ class Sensor
 
 
     /**
-     * Set string
+     * Set name
      *
-     * @param string $string
+     * @param string $name
      *
      * @return Sensor
      */
-    public function setString($string)
+    public function setName($name)
     {
-        $this->string = $string;
+        $this->name = $name;
 
         return $this;
     }
 
     /**
-     * Get string
+     * Get name
      *
      * @return string
      */
-    public function getString()
+    public function getName()
     {
-        return $this->string;
+        return $this->name;
     }
 }

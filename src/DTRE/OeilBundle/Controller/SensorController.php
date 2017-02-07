@@ -28,8 +28,6 @@ class SensorController extends Controller
             ->getRepository('DTREOeilBundle:Sensor')
             ->find($request->get('id'));
 
-        //$data = $sensors->getData();
-
         return $sensors->getData();
     }
 
@@ -58,8 +56,8 @@ class SensorController extends Controller
     }
 
     /**
-     * @Rest\View(statusCode=Response::HTTP_OK)
-     * @Rest\Get("/sensors/month")
+     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"data"})
+     * @Rest\Get("/sensors/{id}/month")
      * @Rest\QueryParam(name="month", requirements="\d+", default="1", description="month")
      * @Rest\QueryParam(name="year", requirements="\d+", default="2017", description="year")
      */
@@ -68,17 +66,19 @@ class SensorController extends Controller
         $month = $paramFetcher->get('month');
         $year = $paramFetcher->get('year');
 
+        $id =$request->get('id');
+
         $sensors = $this
             ->getDoctrine()
-            ->getRepository('DTREOeilBundle:Sensor')
-            ->getByMonth(new \DateTime($year.'-'.$month));
+            ->getRepository('DTREOeilBundle:Data')
+            ->getByMonth($id, new \DateTime($year.'-'.$month));
 
         return $sensors;
     }
 
     /**
      * @Rest\View(statusCode=Response::HTTP_OK)
-     * @Rest\Get("/sensors/week")
+     * @Rest\Get("/sensors/{id}/week")
      * @Rest\QueryParam(name="day", requirements="\d+", default="1", description="jour")
      * @Rest\QueryParam(name="month", requirements="\d+", default="1", description="month")
      * @Rest\QueryParam(name="year", requirements="\d+", default="2017", description="year")
@@ -89,10 +89,12 @@ class SensorController extends Controller
         $month = $paramFetcher->get('month');
         $year = $paramFetcher->get('year');
 
+        $id =$request->get('id');
+
         $sensors = $this
             ->getDoctrine()
-            ->getRepository('DTREOeilBundle:Sensor')
-            ->getByWeek(new \DateTime($year.'-'.$month.'-'.$day));
+            ->getRepository('DTREOeilBundle:Data')
+            ->getByWeek($id, new \DateTime($year.'-'.$month.'-'.$day));
 
         return $sensors;
     }

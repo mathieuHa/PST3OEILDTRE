@@ -2,6 +2,10 @@ sensors:
     type:     rest
     resource: DTRE\OeilBundle\Controller\SensorController
 
+data:
+    type:     rest
+    resource: DTRE\OeilBundle\Controller\DataController
+
 users:
     type:     rest
     resource: DTRE\OeilBundle\Controller\UserController

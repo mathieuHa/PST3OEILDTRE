@@ -27,6 +27,19 @@ DTRE\OeilBundle\Entity\Data:
         date:
             groups: ['data']
 
+DTRE\OeilBundle\Entity\DailyData:
+    attributes:
+        value:
+            groups: ['dailydata']
+        number:
+            groups: ['dailydata']
+        minvalue:
+            groups: ['dailydata']
+        maxvalue:
+            groups: ['dailydata']
+        date:
+            groups: ['dailydata']
+
 DTRE\OeilBundle\Entity\Sensor:
     attributes:
         id:

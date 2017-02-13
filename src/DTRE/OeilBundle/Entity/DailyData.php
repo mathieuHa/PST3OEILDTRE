@@ -29,30 +29,7 @@ class DailyData
     private $value;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="minvalue", type="integer")
-     */
-    private $minvalue;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="maxvalue", type="integer")
-     */
-    private $maxvalue;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="number", type="integer")
-     */
-    private $number;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="date", type="date")
+     * @ORM\Column(name="date", type="datetime")
      */
     private $date;
 
@@ -96,27 +73,7 @@ class DailyData
         return $this->value;
     }
 
-    /**
-     * @ORM\Column(name="date", type="date")
-     */
-
-    public function setDate($date)
-    {
-        $this->date = $date;
-
-        return $this;
-    }
-
-    /**
-     * Get date
-     *
-     * @return \DateTime
-     */
-    public function getDate()
-    {
-        return $this->date;
-    }
-
+    
     /**
      * Set sensor
      *
@@ -142,74 +99,26 @@ class DailyData
     }
 
     /**
-     * Set minvalue
+     * Set date
      *
-     * @param integer $minvalue
+     * @param \DateTime $date
      *
      * @return DailyData
      */
-    public function setMinvalue($minvalue)
+    public function setDate($date)
     {
-        $this->minvalue = $minvalue;
+        $this->date = $date;
 
         return $this;
     }
 
     /**
-     * Get minvalue
+     * Get date
      *
-     * @return integer
+     * @return \DateTime
      */
-    public function getMinvalue()
+    public function getDate()
     {
-        return $this->minvalue;
-    }
-
-    /**
-     * Set maxvalue
-     *
-     * @param integer $maxvalue
-     *
-     * @return DailyData
-     */
-    public function setMaxvalue($maxvalue)
-    {
-        $this->maxvalue = $maxvalue;
-
-        return $this;
-    }
-
-    /**
-     * Get maxvalue
-     *
-     * @return integer
-     */
-    public function getMaxvalue()
-    {
-        return $this->maxvalue;
-    }
-
-    /**
-     * Set number
-     *
-     * @param integer $number
-     *
-     * @return DailyData
-     */
-    public function setNumber($number)
-    {
-        $this->number = $number;
-
-        return $this;
-    }
-
-    /**
-     * Get number
-     *
-     * @return integer
-     */
-    public function getNumber()
-    {
-        return $this->number;
+        return $this->date;
     }
 }

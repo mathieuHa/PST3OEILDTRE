@@ -125,30 +125,30 @@ class DataController extends Controller
             $em = $this
                 ->getDoctrine()
                 ->getManager();
-            $dailyData = $this
+            /*$dailyData = $this
                 ->getDoctrine()
                 ->getRepository('DTREOeilBundle:DailyData')
-                ->getDataDay($data->getDate());
+                ->getDataDay($data->getDate());*/
             $dateDay= new \DateTime($data->getDate()->format("Y-m-d"));
-            if ($dailyData!=null){
+            /*if ($dailyData!=null){
                 $dailyData->setValue(1);
                 $dailyData->setMinvalue(1);
                 $dailyData->setMaxvalue(1);
                 $dailyData->setNumber(1);
                 $dailyData->setDate($dateDay);
             }
-            else{
+            else{*/
                 $dailyData = new DailyData();
-                $dailyData->setValue(2);
+                $dailyData->setValue(2);/*
                 $dailyData->setMinvalue(2);
                 $dailyData->setMaxvalue(2);
-                $dailyData->setNumber(2);
-                $dailyData->setDate($dateDay);
-            }
+                $dailyData->setNumber(2);*/
+                $dailyData->setDate(new \DateTime());
+            //}
 
             //$data->getDate();
             $sensor->addDatum($data);
-            $sensor->addDailyDatum($dailyData);
+            $sensor->addDailydatum($dailyData);
             $em->persist($sensor);
             $em->flush();
             return $data;

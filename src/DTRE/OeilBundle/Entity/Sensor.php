@@ -79,6 +79,7 @@ class Sensor
     public function __construct()
     {
         $this->data = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->dailydata = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -134,16 +135,6 @@ class Sensor
     }
 
     /**
-     * Remove dailydatum
-     *
-     * @param \DTRE\OeilBundle\Entity\DailyData $dailydatum
-     */
-    public function removeDailydatum(\DTRE\OeilBundle\Entity\DailyData $dailydatum)
-    {
-        $this->dailydata->removeElement($dailydatum);
-    }
-
-    /**
      * Get dailydata
      *
      * @return \Doctrine\Common\Collections\Collection
@@ -151,5 +142,15 @@ class Sensor
     public function getDailydata()
     {
         return $this->dailydata;
+    }
+
+    /**
+     * Remove dailydatum
+     *
+     * @param \DTRE\OeilBundle\Entity\DailyData $dailydatum
+     */
+    public function removeDailydatum(\DTRE\OeilBundle\Entity\DailyData $dailydatum)
+    {
+        $this->dailydata->removeElement($dailydatum);
     }
 }

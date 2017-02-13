@@ -6,6 +6,10 @@ data:
     type:     rest
     resource: DTRE\OeilBundle\Controller\DataController
 
+dailydata:
+    type:     rest
+    resource: DTRE\OeilBundle\Controller\DailyDataController
+
 users:
     type:     rest
     resource: DTRE\OeilBundle\Controller\UserController

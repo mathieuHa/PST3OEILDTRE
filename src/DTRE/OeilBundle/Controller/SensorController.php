@@ -19,7 +19,25 @@ class SensorController extends Controller
 {
 
     /**
-     * @Rest\View(statusCode=Response::HTTP_OK)
+     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"sensor"})
+     * @Rest\Get("/sensors")
+     */
+    public function getSensorsAction()
+    {
+        $sensor = $this
+            ->getDoctrine()
+            ->getRepository('DTREOeilBundle:Sensor')
+            ->findAll();
+
+        if (NULL ===$sensor) {
+            return View::create(['message' => 'Sensor not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        return $sensor;
+    }
+
+    /**
+     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"sensor"})
      * @Rest\Get("/sensors/{id}")
      */
     public function getSensorAction(Request $request)
@@ -35,14 +53,15 @@ class SensorController extends Controller
 
         return $sensor;
     }
+
     /**
-     * @Rest\View(statusCode=Response::HTTP_CREATED)
-     * @Rest\Post("/sensors/{id}")
+     * @Rest\View(statusCode=Response::HTTP_CREATED, serializerGroups={"sensor"})
+     * @Rest\Post("/sensors")
      */
     public function postSensorsAction(Request $request)
     {
         $sensor = new Sensor();
-        $form = $this->createForm(DataType::class, $sensor);
+        $form = $this->createForm(SensorType::class, $sensor, ['validation_groups'=>['Default', 'New']]);
         $form->submit($request->request->all());
 
         if ($form->isValid()){

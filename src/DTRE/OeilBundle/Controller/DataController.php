@@ -104,7 +104,7 @@ class DataController extends Controller
     }
 
     /**
-     * @Rest\View(statusCode=Response::HTTP_CREATED)
+     * @Rest\View(statusCode=Response::HTTP_CREATED,  serializerGroups={"data"})
      * @Rest\Post("/sensors/{id}/data")
      */
     public function postDataAction(Request $request)

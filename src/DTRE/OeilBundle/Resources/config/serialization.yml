@@ -26,3 +26,10 @@ DTRE\OeilBundle\Entity\Data:
             groups: ['data']
         date:
             groups: ['data']
+
+DTRE\OeilBundle\Entity\Sensor:
+    attributes:
+        id:
+            groups: ['sensor']
+        name:
+            groups: ['sensor']

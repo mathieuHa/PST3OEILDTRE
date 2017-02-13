@@ -24,23 +24,42 @@ class DailyData
     /**
      * @var int
      *
-     * @ORM\Column(name="id_sensor", type="integer")
-     */
-    private $idSensor;
-
-    /**
-     * @var int
-     *
      * @ORM\Column(name="value", type="integer")
      */
     private $value;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="minvalue", type="integer")
+     */
+    private $minvalue;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="maxvalue", type="integer")
+     */
+    private $maxvalue;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="number", type="integer")
+     */
+    private $number;
+
+    /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date", type="datetime")
+     * @ORM\Column(name="date", type="date")
      */
     private $date;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="DTRE\OeilBundle\Entity\Sensor", inversedBy="dailydata")
+     */
+    private $sensor;
 
 
     /**
@@ -51,30 +70,6 @@ class DailyData
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set idSensor
-     *
-     * @param integer $idSensor
-     *
-     * @return DailyData
-     */
-    public function setIdSensor($idSensor)
-    {
-        $this->idSensor = $idSensor;
-
-        return $this;
-    }
-
-    /**
-     * Get idSensor
-     *
-     * @return int
-     */
-    public function getIdSensor()
-    {
-        return $this->idSensor;
     }
 
     /**
@@ -102,12 +97,9 @@ class DailyData
     }
 
     /**
-     * Set date
-     *
-     * @param \DateTime $date
-     *
-     * @return DailyData
+     * @ORM\Column(name="date", type="date")
      */
+
     public function setDate($date)
     {
         $this->date = $date;
@@ -123,5 +115,101 @@ class DailyData
     public function getDate()
     {
         return $this->date;
+    }
+
+    /**
+     * Set sensor
+     *
+     * @param \DTRE\OeilBundle\Entity\Sensor $sensor
+     *
+     * @return DailyData
+     */
+    public function setSensor(\DTRE\OeilBundle\Entity\Sensor $sensor = null)
+    {
+        $this->sensor = $sensor;
+
+        return $this;
+    }
+
+    /**
+     * Get sensor
+     *
+     * @return \DTRE\OeilBundle\Entity\Sensor
+     */
+    public function getSensor()
+    {
+        return $this->sensor;
+    }
+
+    /**
+     * Set minvalue
+     *
+     * @param integer $minvalue
+     *
+     * @return DailyData
+     */
+    public function setMinvalue($minvalue)
+    {
+        $this->minvalue = $minvalue;
+
+        return $this;
+    }
+
+    /**
+     * Get minvalue
+     *
+     * @return integer
+     */
+    public function getMinvalue()
+    {
+        return $this->minvalue;
+    }
+
+    /**
+     * Set maxvalue
+     *
+     * @param integer $maxvalue
+     *
+     * @return DailyData
+     */
+    public function setMaxvalue($maxvalue)
+    {
+        $this->maxvalue = $maxvalue;
+
+        return $this;
+    }
+
+    /**
+     * Get maxvalue
+     *
+     * @return integer
+     */
+    public function getMaxvalue()
+    {
+        return $this->maxvalue;
+    }
+
+    /**
+     * Set number
+     *
+     * @param integer $number
+     *
+     * @return DailyData
+     */
+    public function setNumber($number)
+    {
+        $this->number = $number;
+
+        return $this;
+    }
+
+    /**
+     * Get number
+     *
+     * @return integer
+     */
+    public function getNumber()
+    {
+        return $this->number;
     }
 }

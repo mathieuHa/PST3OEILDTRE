@@ -10,4 +10,16 @@ namespace DTRE\OeilBundle\Repository;
  */
 class DailyDataRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getDataDay(\Datetime $date)
+    {
+        $dateDay= new \DateTime($date->format("Y-m-d"));
+        $qb = $this->createQueryBuilder("d");
+
+        $qb->select('d')
+            ->where('d.date = :date')
+            ->setParameter('date', $dateDay);
+
+        return $qb->getQuery()
+            ->getResult();
+    }
 }

@@ -35,6 +35,11 @@ class Sensor
     private $data;
 
     /**
+     * @ORM\OneToMany(targetEntity="DTRE\OeilBundle\Entity\DailyData", mappedBy="sensor" ,cascade={"persist", "remove"})
+     */
+    private $dailydata;
+
+    /**
      * Get id
      *
      * @return int
@@ -110,5 +115,41 @@ class Sensor
     public function getData()
     {
         return $this->data;
+    }
+
+    /**
+     * Add dailydatum
+     *
+     * @param \DTRE\OeilBundle\Entity\DailyData $dailydatum
+     *
+     * @return Sensor
+     */
+    public function addDailydatum(\DTRE\OeilBundle\Entity\DailyData $dailydatum)
+    {
+        $this->dailydata[] = $dailydatum;
+
+        $dailydatum->setSensor($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove dailydatum
+     *
+     * @param \DTRE\OeilBundle\Entity\DailyData $dailydatum
+     */
+    public function removeDailydatum(\DTRE\OeilBundle\Entity\DailyData $dailydatum)
+    {
+        $this->dailydata->removeElement($dailydatum);
+    }
+
+    /**
+     * Get dailydata
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getDailydata()
+    {
+        return $this->dailydata;
     }
 }

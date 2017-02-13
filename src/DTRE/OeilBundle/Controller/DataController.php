@@ -2,8 +2,10 @@
 
 namespace DTRE\OeilBundle\Controller;
 
+use DTRE\OeilBundle\Entity\DailyData;
 use DTRE\OeilBundle\Entity\Data;
 use DTRE\OeilBundle\Entity\Sensor;
+use DTRE\OeilBundle\Form\DailyDataType;
 use DTRE\OeilBundle\Form\DataType;
 use DTRE\OeilBundle\Form\SensorType;
 use FOS\RestBundle\View\View;
@@ -116,13 +118,37 @@ class DataController extends Controller
 
         $data = new Data();
         $form = $this->createForm(DataType::class, $data);
+
         $form->submit($request->request->all());
 
         if ($form->isValid()){
             $em = $this
                 ->getDoctrine()
                 ->getManager();
+            $dailyData = $this
+                ->getDoctrine()
+                ->getRepository('DTREOeilBundle:DailyData')
+                ->getDataDay($data->getDate());
+            $dateDay= new \DateTime($data->getDate()->format("Y-m-d"));
+            if ($dailyData!=null){
+                $dailyData->setValue(1);
+                $dailyData->setMinvalue(1);
+                $dailyData->setMaxvalue(1);
+                $dailyData->setNumber(1);
+                $dailyData->setDate($dateDay);
+            }
+            else{
+                $dailyData = new DailyData();
+                $dailyData->setValue(2);
+                $dailyData->setMinvalue(2);
+                $dailyData->setMaxvalue(2);
+                $dailyData->setNumber(2);
+                $dailyData->setDate($dateDay);
+            }
+
+            //$data->getDate();
             $sensor->addDatum($data);
+            $sensor->addDailyDatum($dailyData);
             $em->persist($sensor);
             $em->flush();
             return $data;

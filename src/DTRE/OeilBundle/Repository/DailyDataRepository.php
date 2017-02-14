@@ -20,6 +20,6 @@ class DailyDataRepository extends \Doctrine\ORM\EntityRepository
             ->setParameter('date', $dateDay);
 
         return $qb->getQuery()
-            ->getResult();
+            ->getOneOrNullResult();
     }
 }

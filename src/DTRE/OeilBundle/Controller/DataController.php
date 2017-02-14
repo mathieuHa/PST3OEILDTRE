@@ -130,21 +130,20 @@ class DataController extends Controller
                 ->getRepository('DTREOeilBundle:DailyData')
                 ->getDataDay($data->getDate());
             $dateDay= new \DateTime($data->getDate()->format("Y-m-d"));
-            /*if ($dailyData!=null){
+            if ($dailyData!=null){
                 $dailyData->setValue(1);
-                $dailyData->setMinvalue(1);
-                $dailyData->setMaxvalue(1);
+                $dailyData->setMin(1);
+                $dailyData->setMax(1);
                 $dailyData->setNumber(1);
-                $dailyData->setDate($dateDay);
             }
-            else{*/
+            else{
                 $dailyData = new DailyData();
                 $dailyData->setValue(2);
                 $dailyData->setMin(3);
                 $dailyData->setMax(4);
                 $dailyData->setNumber(2);
                 $dailyData->setDate($dateDay);
-            //}
+            }
 
             //$data->getDate();
             $sensor->addDatum($data);

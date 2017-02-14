@@ -125,10 +125,10 @@ class DataController extends Controller
             $em = $this
                 ->getDoctrine()
                 ->getManager();
-            /*$dailyData = $this
+            $dailyData = $this
                 ->getDoctrine()
                 ->getRepository('DTREOeilBundle:DailyData')
-                ->getDataDay($data->getDate());*/
+                ->getDataDay($data->getDate());
             $dateDay= new \DateTime($data->getDate()->format("Y-m-d"));
             /*if ($dailyData!=null){
                 $dailyData->setValue(1);
@@ -139,11 +139,11 @@ class DataController extends Controller
             }
             else{*/
                 $dailyData = new DailyData();
-                $dailyData->setValue(2);/*
-                $dailyData->setMinvalue(2);
-                $dailyData->setMaxvalue(2);
-                $dailyData->setNumber(2);*/
-                $dailyData->setDate(new \DateTime());
+                $dailyData->setValue(2);
+                $dailyData->setMin(3);
+                $dailyData->setMax(4);
+                $dailyData->setNumber(2);
+                $dailyData->setDate($dateDay);
             //}
 
             //$data->getDate();

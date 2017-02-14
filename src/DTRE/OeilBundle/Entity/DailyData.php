@@ -29,6 +29,27 @@ class DailyData
     private $value;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="min", type="integer")
+     */
+    private $min;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="max", type="integer")
+     */
+    private $max;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="number", type="integer")
+     */
+    private $number;
+
+    /**
      * @ORM\Column(name="date", type="datetime")
      */
     private $date;
@@ -120,5 +141,125 @@ class DailyData
     public function getDate()
     {
         return $this->date;
+    }
+
+    /**
+     * Set minvalue
+     *
+     * @param integer $minvalue
+     *
+     * @return DailyData
+     */
+    public function setMinvalue($minvalue)
+    {
+        $this->minvalue = $minvalue;
+
+        return $this;
+    }
+
+    /**
+     * Get minvalue
+     *
+     * @return integer
+     */
+    public function getMinvalue()
+    {
+        return $this->minvalue;
+    }
+
+    /**
+     * Set maxvalue
+     *
+     * @param integer $maxvalue
+     *
+     * @return DailyData
+     */
+    public function setMaxvalue($maxvalue)
+    {
+        $this->maxvalue = $maxvalue;
+
+        return $this;
+    }
+
+    /**
+     * Get maxvalue
+     *
+     * @return integer
+     */
+    public function getMaxvalue()
+    {
+        return $this->maxvalue;
+    }
+
+    /**
+     * Set number
+     *
+     * @param integer $number
+     *
+     * @return DailyData
+     */
+    public function setNumber($number)
+    {
+        $this->number = $number;
+
+        return $this;
+    }
+
+    /**
+     * Get number
+     *
+     * @return integer
+     */
+    public function getNumber()
+    {
+        return $this->number;
+    }
+
+    /**
+     * Set min
+     *
+     * @param integer $min
+     *
+     * @return DailyData
+     */
+    public function setMin($min)
+    {
+        $this->min = $min;
+
+        return $this;
+    }
+
+    /**
+     * Get min
+     *
+     * @return integer
+     */
+    public function getMin()
+    {
+        return $this->min;
+    }
+
+    /**
+     * Set max
+     *
+     * @param integer $max
+     *
+     * @return DailyData
+     */
+    public function setMax($max)
+    {
+        $this->max = $max;
+
+        return $this;
+    }
+
+    /**
+     * Get max
+     *
+     * @return integer
+     */
+    public function getMax()
+    {
+        return $this->max;
     }
 }

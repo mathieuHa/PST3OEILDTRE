@@ -19,6 +19,9 @@ use FOS\RestBundle\Request\ParamFetcher;
 
 class DailyDataController extends Controller
 {
+    public function SensorNotFound(){
+        return View::create(['message' => 'Sensor not found'], Response::HTTP_NOT_FOUND);;
+    }
 
     /**
      * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"dailydata"})
@@ -31,12 +34,136 @@ class DailyDataController extends Controller
             ->getRepository('DTREOeilBundle:Sensor')
             ->find($request->get('id'));
 
-        if (NULL ===$sensor) {
-            return View::create(['message' => 'Sensor not found'], Response::HTTP_NOT_FOUND);
+        if (NULL === $sensor) {
+            return $this->SensorNotFound();
         }
 
         return $sensor->getDailyData();
     }
+
+    /**
+     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"dailydata"})
+     * @Rest\Get("/sensors/{id}/dailydata/week")
+     * @Rest\QueryParam(name="day", requirements="\d+", default="1", description="jour")
+     * @Rest\QueryParam(name="month", requirements="\d+", default="1", description="month")
+     * @Rest\QueryParam(name="year", requirements="\d+", default="2017", description="year")
+     */
+    public function getDailyDataWeekAction(Request $request, ParamFetcher $paramFetcher)
+    {
+        $id =$request->get('id');
+
+        $sensor = $this
+            ->getDoctrine()
+            ->getRepository('DTREOeilBundle:Sensor')
+            ->find($id);
+
+        if (NULL === $sensor) {
+            return $this->SensorNotFound();
+        }
+
+        $day = $paramFetcher->get('day');
+        $month = $paramFetcher->get('month');
+        $year = $paramFetcher->get('year');
+
+
+        $dailydata = $this
+            ->getDoctrine()
+            ->getRepository('DTREOeilBundle:DailyData')
+            ->getByWeek($id, new \DateTime($year.'-'.$month.'-'.$day));
+
+        return $dailydata;
+    }
+
+    /**
+     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"dailydata"})
+     * @Rest\Get("/sensors/{id}/dailydata/month")
+     * @Rest\QueryParam(name="month", requirements="\d+", default="1", description="month")
+     * @Rest\QueryParam(name="year", requirements="\d+", default="2017", description="year")
+     */
+    public function getDailyDataMonthAction(Request $request, ParamFetcher $paramFetcher)
+    {
+        $id =$request->get('id');
+
+        $sensor = $this
+            ->getDoctrine()
+            ->getRepository('DTREOeilBundle:Sensor')
+            ->find($id);
+
+        if (NULL === $sensor) {
+            return $this->SensorNotFound();
+        }
+
+        $month = $paramFetcher->get('month');
+        $year = $paramFetcher->get('year');
+
+
+        $dailydata = $this
+            ->getDoctrine()
+            ->getRepository('DTREOeilBundle:DailyData')
+            ->getByMonth($id, new \DateTime($year.'-'.$month));
+
+        return $dailydata;
+    }
+
+    /**
+     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"dailydata"})
+     * @Rest\Get("/sensors/{id}/dailydata/semester")
+     * @Rest\QueryParam(name="month", requirements="\d+", default="1", description="month")
+     * @Rest\QueryParam(name="year", requirements="\d+", default="2017", description="year")
+     */
+    public function getDailyDataSemesterAction(Request $request, ParamFetcher $paramFetcher)
+    {
+        $id =$request->get('id');
+
+        $sensor = $this
+            ->getDoctrine()
+            ->getRepository('DTREOeilBundle:Sensor')
+            ->find($id);
+
+        if (NULL === $sensor) {
+            return $this->SensorNotFound();
+        }
+
+        $month = $paramFetcher->get('month');
+        $year = $paramFetcher->get('year');
+
+        $dailydata = $this
+            ->getDoctrine()
+            ->getRepository('DTREOeilBundle:DailyData')
+            ->getBySemester($id, new \DateTime($year.'-'.$month));
+
+        return $dailydata;
+    }
+
+    /**
+     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"dailydata"})
+     * @Rest\Get("/sensors/{id}/dailydata/semester")
+     * @Rest\QueryParam(name="year", requirements="\d+", default="2017", description="year")
+     */
+    public function getDailyDataYearAction(Request $request, ParamFetcher $paramFetcher)
+    {
+        $id =$request->get('id');
+
+        $sensor = $this
+            ->getDoctrine()
+            ->getRepository('DTREOeilBundle:Sensor')
+            ->find($id);
+
+        if (NULL === $sensor) {
+            return $this->SensorNotFound();
+        }
+
+        $year = $paramFetcher->get('year');
+
+        $dailydata = $this
+            ->getDoctrine()
+            ->getRepository('DTREOeilBundle:DailyData')
+            ->getByYear($id, new \DateTime($year));
+
+        return $dailydata;
+    }
+
+
 
     /**
      * @Rest\View(statusCode=Response::HTTP_CREATED,  serializerGroups={"dailydata"})
@@ -48,6 +175,10 @@ class DailyDataController extends Controller
             ->getDoctrine()
             ->getRepository('DTREOeilBundle:Sensor')
             ->find($request->get('id'));
+
+        if (NULL === $sensor) {
+            return $this->SensorNotFound();
+        }
 
         $dailyData = new DailyData();
         $form = $this->createForm(DailyDataType::class, $dailyData);
@@ -66,6 +197,37 @@ class DailyDataController extends Controller
         else {
             return $form;
         }
+    }
+
+    /**
+     * @Rest\View(statusCode=Response::HTTP_NO_CONTENT)
+     * @Rest\Delete("/sensors/{sensor_id}/dailydata/{id}")
+     */
+    public function deleteDailyDataAction(Request $request)
+    {
+        $em = $this
+            ->getDoctrine()
+            ->getManager();
+
+        $sensor = $em
+            ->getRepository('DTREOeilBundle:Sensor')
+            ->find($request->get('sensor_id'));
+
+        if (NULL === $sensor) {
+            return;
+        }
+
+        $dailydata = $em
+            ->getRepository('DTREOeilBundle:DailyData')
+            ->find($request->get('id'));
+
+        if (NULL === $dailydata) {
+            return;
+        }
+
+        $sensor->removeDailydatum($dailydata);
+        $em->remove($dailydata);
+        $em->flush();
     }
 
 }

@@ -33,9 +33,9 @@ DTRE\OeilBundle\Entity\DailyData:
             groups: ['dailydata']
         number:
             groups: ['dailydata']
-        minvalue:
+        min:
             groups: ['dailydata']
-        maxvalue:
+        max:
             groups: ['dailydata']
         date:
             groups: ['dailydata']

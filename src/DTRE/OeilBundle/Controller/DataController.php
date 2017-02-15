@@ -150,7 +150,6 @@ class DataController extends Controller
                 $dailyData->setDate($dateDay);
             }
 
-            //$data->getDate();
             $sensor->addDatum($data);
             $sensor->addDailydatum($dailyData);
             $em->persist($sensor);
@@ -168,18 +167,29 @@ class DataController extends Controller
      */
     public function deleteDataAction(Request $request)
     {
-        $sensor = $this
+        $em = $this
             ->getDoctrine()
+            ->getManager();
+
+        $sensor = $em
             ->getRepository('DTREOeilBundle:Sensor')
+            ->find($request->get('sensor_id'));
+
+        if (NULL === $sensor) {
+            return;
+        }
+
+        $data = $em
+            ->getRepository('DTREOeilBundle:Data')
             ->find($request->get('id'));
 
-        if ($sensor){
-            $em = $this
-                ->getDoctrine()
-                ->getManager();
-            $em->remove($sensor);
-            $em->flush();
+        if (NULL === $data) {
+            return;
         }
+
+        $sensor->removeDatum($data);
+        $em->remove($data);
+        $em->flush();
     }
 
     /**

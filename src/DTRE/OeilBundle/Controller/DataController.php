@@ -19,6 +19,10 @@ use FOS\RestBundle\Request\ParamFetcher;
 
 class DataController extends Controller
 {
+    public function SensorNotFound(){
+        return View::create(['message' => 'Sensor not found'], Response::HTTP_NOT_FOUND);;
+    }
+
     /**
      * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"data"})
      * @Rest\Get("/sensors/{id}/data/day")
@@ -98,8 +102,8 @@ class DataController extends Controller
             ->getRepository('DTREOeilBundle:Sensor')
             ->find($request->get('id'));
 
-        if (NULL ===$sensor) {
-            return View::create(['message' => 'Sensor not found'], Response::HTTP_NOT_FOUND);
+        if (NULL === $sensor) {
+            return $this->SensorNotFound();
         }
 
         return $sensor->getData();
@@ -203,8 +207,8 @@ class DataController extends Controller
             ->getRepository('DTREOeilBundle:Sensor')
             ->find($request->get('id'));
 
-        if (NULL ===$sensor) {
-            return View::create(['message' => 'Sensor not found'], Response::HTTP_NOT_FOUND);
+        if (NULL === $sensor) {
+            return $this->SensorNotFound();
         }
 
         $form = $this->createForm(SensorType::class, $sensor);
@@ -234,8 +238,8 @@ class DataController extends Controller
             ->getRepository('DTREOeilBundle:Sensor')
             ->find($request->get('id'));
 
-        if (NULL ===$sensor) {
-            return View::create(['message' => 'Sensor not found'], Response::HTTP_NOT_FOUND);
+        if (NULL === $sensor) {
+            return $this->SensorNotFound();
         }
 
         $form = $this->createForm(SensorType::class, $sensor);

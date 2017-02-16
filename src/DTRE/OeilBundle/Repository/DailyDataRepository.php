@@ -31,6 +31,8 @@ class DailyDataRepository extends \Doctrine\ORM\EntityRepository
         $to   = new \DateTime($date->format("Y-m-d")." 00:00:00");
         $interval = new DateInterval('P0Y0M7DT0H0M0S'); //1min
         $to->add($interval);
+        $interval = new DateInterval('P0Y0M0DT0H0M1S'); //1min
+        $to->sub($interval);
 
         $qb = $this->createQueryBuilder("d");
         $qb
@@ -48,10 +50,12 @@ class DailyDataRepository extends \Doctrine\ORM\EntityRepository
 
     public function getByMonth($id, \Datetime $date)
     {
-        $from = new \DateTime($date->format("Y-m")." 00:00:00");
-        $to   = new \DateTime($date->format("Y-m")." 00:00:00");
+        $from = new \DateTime($date->format("Y-m-d")." 00:00:00");
+        $to   = new \DateTime($date->format("Y-m-d")." 00:00:00");
         $interval = new DateInterval('P0Y1M0DT0H0M0S'); //1min
         $to->add($interval);
+        $interval = new DateInterval('P0Y0M0DT0H0M1S'); //1min
+        $to->sub($interval);
 
         $qb = $this->createQueryBuilder("d");
         $qb
@@ -73,6 +77,8 @@ class DailyDataRepository extends \Doctrine\ORM\EntityRepository
         $to   = new \DateTime($date->format("Y-m")." 00:00:00");
         $interval = new DateInterval('P0Y6M0DT0H0M0S'); //1min
         $to->add($interval);
+        $interval = new DateInterval('P0Y0M0DT0H0M1S'); //1min
+        $to->sub($interval);
 
         $qb = $this->createQueryBuilder("d");
         $qb
@@ -96,6 +102,8 @@ class DailyDataRepository extends \Doctrine\ORM\EntityRepository
         $to   = new \DateTime($date->format("Y")."-01-01 00:00:00");
         $interval = new DateInterval('P1Y0M0DT0H0M0S'); //1min
         $to->add($interval);
+        $interval = new DateInterval('P0Y0M0DT0H0M1S'); //1min
+        $to->sub($interval);
 
         $qb = $this->createQueryBuilder("d");
         $qb

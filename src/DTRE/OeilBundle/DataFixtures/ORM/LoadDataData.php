@@ -22,16 +22,24 @@ class LoadDataData implements FixtureInterface
     {
         $date = new \DateTime('2017-01-01 00:00:00', new DateTimeZone('Europe/Paris'));
         $interval = new DateInterval('P0Y0M0DT0H30M0S'); //1min
-        $max = 10000;
+        $max = 20000;
 
         $s1 = new Sensor();
         $s2 = new Sensor();
         $s3 = new Sensor();
         $s4 = new Sensor();
-        $s1->setName("temperature");
+        $s1->setName("température");
         $s2->setName("humidité");
-        $s3->setName("capteur 3");
-        $s4->setName("capteur 4");
+        $s3->setName("luminosité");
+        $s4->setName("son");
+        $s1->setTitle("Température dans la DTRE");
+        $s2->setTitle("Humidité dans la DTRE");
+        $s3->setTitle("Luminosité dans la DTRE");
+        $s4->setTitle("Bruit dans la DTRE");
+        $s1->setSubtitle("En degré Celsius");
+        $s2->setSubtitle("En %");
+        $s3->setSubtitle("En %");
+        $s4->setSubtitle("En décibels");
         $data1 = [$max];
         $data2 = [$max];
         $data3 = [$max];

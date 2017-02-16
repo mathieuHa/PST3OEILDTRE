@@ -79,9 +79,11 @@ class DailyDataRepository extends \Doctrine\ORM\EntityRepository
             ->join('d.sensor', 's')
             ->where('s.id = :id')
             ->andWhere('d.date BETWEEN :from AND :to')
+            ->andWhere('d.date LIKE :day')
             ->setParameter('from', $from )
             ->setParameter('to', $to)
             ->setParameter('id', $id)
+            ->setParameter('day', '%01 00:00:00%')
         ;
         $result = $qb->getQuery()->getResult();
 
@@ -90,9 +92,9 @@ class DailyDataRepository extends \Doctrine\ORM\EntityRepository
 
     public function getByYear($id, \Datetime $date)
     {
-        $from = new \DateTime($date->format("Y")." 00:00:00");
-        $to   = new \DateTime($date->format("Y")." 00:00:00");
-        $interval = new DateInterval('P1YM0DT0H0M0S'); //1min
+        $from = new \DateTime($date->format("Y")."-01-01 00:00:00");
+        $to   = new \DateTime($date->format("Y")."-01-01 00:00:00");
+        $interval = new DateInterval('P1Y0M0DT0H0M0S'); //1min
         $to->add($interval);
 
         $qb = $this->createQueryBuilder("d");
@@ -100,9 +102,11 @@ class DailyDataRepository extends \Doctrine\ORM\EntityRepository
             ->join('d.sensor', 's')
             ->where('s.id = :id')
             ->andWhere('d.date BETWEEN :from AND :to')
+            ->andWhere('d.date LIKE :day')
             ->setParameter('from', $from )
             ->setParameter('to', $to)
             ->setParameter('id', $id)
+            ->setParameter('day', '%01 00:00:00%')
         ;
         $result = $qb->getQuery()->getResult();
 

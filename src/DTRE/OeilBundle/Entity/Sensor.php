@@ -28,6 +28,22 @@ class Sensor
      */
     private $name;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="title", type="string")
+     */
+    private $title;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="subtitle", type="string")
+     */
+    private $subtitle;
+
+
+
 
     /**
      * @ORM\OneToMany(targetEntity="DTRE\OeilBundle\Entity\Data", mappedBy="sensor" ,cascade={"persist", "remove"})
@@ -152,5 +168,53 @@ class Sensor
     public function removeDailydatum(\DTRE\OeilBundle\Entity\DailyData $dailydatum)
     {
         $this->dailydata->removeElement($dailydatum);
+    }
+
+    /**
+     * Set title
+     *
+     * @param string $title
+     *
+     * @return Sensor
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * Set subtitle
+     *
+     * @param string $subtitle
+     *
+     * @return Sensor
+     */
+    public function setSubtitle($subtitle)
+    {
+        $this->subtitle = $subtitle;
+
+        return $this;
+    }
+
+    /**
+     * Get subtitle
+     *
+     * @return string
+     */
+    public function getSubtitle()
+    {
+        return $this->subtitle;
     }
 }

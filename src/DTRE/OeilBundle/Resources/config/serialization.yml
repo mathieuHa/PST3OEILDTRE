@@ -46,3 +46,7 @@ DTRE\OeilBundle\Entity\Sensor:
             groups: ['sensor']
         name:
             groups: ['sensor']
+        title:
+            groups: ['sensor']
+        subtitle:
+            groups: ['sensor']

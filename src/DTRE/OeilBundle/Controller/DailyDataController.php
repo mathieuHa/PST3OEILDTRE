@@ -138,7 +138,7 @@ class DailyDataController extends Controller
     /**
      * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"dailydata"})
      * @Rest\Get("/sensors/{id}/dailydata/year")
-     * @Rest\QueryParam(name="year", requirements="\d+", default="2016", description="year")
+     * @Rest\QueryParam(name="year", requirements="\d+", default="2017", description="year")
      */
     public function getDailyDataYearAction(Request $request, ParamFetcher $paramFetcher)
     {
@@ -154,11 +154,12 @@ class DailyDataController extends Controller
         }
 
         $year = $paramFetcher->get('year');
+        $month = 1;
 
         $dailydata = $this
             ->getDoctrine()
             ->getRepository('DTREOeilBundle:DailyData')
-            ->getByYear($id, new \DateTime($year));
+            ->getByYear($id, new \DateTime($year."-".$month));
 
         return $dailydata;
     }

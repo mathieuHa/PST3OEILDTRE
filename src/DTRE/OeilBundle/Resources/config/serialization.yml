@@ -43,10 +43,12 @@ DTRE\OeilBundle\Entity\DailyData:
 DTRE\OeilBundle\Entity\Sensor:
     attributes:
         id:
-            groups: ['sensor']
+            groups: ['sensor', 'data']
         name:
-            groups: ['sensor']
+            groups: ['sensor', 'data']
         title:
-            groups: ['sensor']
+            groups: ['sensor', 'data']
         subtitle:
-            groups: ['sensor']
+            groups: ['sensor', 'data']
+        data:
+            groups: ['data']

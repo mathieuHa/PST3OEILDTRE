@@ -135,6 +135,16 @@ class Sensor
     }
 
     /**
+     * Set data
+     *
+     * @return Sensor
+     */
+    public function setData($data)
+    {
+        $this->data = $data;
+    }
+
+    /**
      * Add dailydatum
      *
      * @param \DTRE\OeilBundle\Entity\DailyData $dailydatum

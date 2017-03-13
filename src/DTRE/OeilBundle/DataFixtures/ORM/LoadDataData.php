@@ -22,7 +22,7 @@ class LoadDataData implements FixtureInterface
     {
         $date = new \DateTime('2017-01-01 00:00:00', new DateTimeZone('Europe/Paris'));
         $interval = new DateInterval('P0Y0M0DT0H30M0S'); //1min
-        $max = 20000;
+        $max = 10000;
 
         $s1 = new Sensor();
         $s2 = new Sensor();

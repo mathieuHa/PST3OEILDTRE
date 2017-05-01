@@ -52,3 +52,12 @@ DTRE\OeilBundle\Entity\Sensor:
             groups: ['sensor', 'data']
         data:
             groups: ['data']
+
+DTRE\OeilBundle\Entity\Image:
+    attributes:
+        id:
+            groups: ['image']
+        date:
+            groups: ['image']
+        url:
+            groups: ['image']

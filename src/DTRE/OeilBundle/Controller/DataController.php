@@ -68,7 +68,7 @@ class DataController extends Controller
             ->getRepository('DTREOeilBundle:Sensor')
             ->findAll();
 
-        if (NULL ===$sensor) {
+        if (NULL === $sensor) {
             return View::create(['message' => 'Sensor not found'], Response::HTTP_NOT_FOUND);
         }
         foreach ($sensor as $s){
@@ -101,7 +101,38 @@ class DataController extends Controller
     }
 
     /**
-     * @Rest\View(statusCode=Response::HTTP_OK)
+     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"data"})
+     * @Rest\Get("/sensors/data/month")
+     * @Rest\QueryParam(name="month", requirements="\d+", default="1", description="month")
+     * @Rest\QueryParam(name="year", requirements="\d+", default="2017", description="year")
+     */
+    public function getFullDataMonthAction(ParamFetcher $paramFetcher)
+    {
+        $month = $paramFetcher->get('month');
+        $year = $paramFetcher->get('year');
+
+        $em = $this
+            ->getDoctrine()
+            ->getManager();
+
+        $sensor = $em
+            ->getRepository('DTREOeilBundle:Sensor')
+            ->findAll();
+
+        if (NULL === $sensor) {
+            return View::create(['message' => 'Sensor not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        foreach ($sensor as $s){
+            $s->setData($em
+                ->getRepository('DTREOeilBundle:Data')
+                ->getByMonth($s->getId(),new \DateTime($year.'-'.$month)));
+        }
+        return $sensor;
+    }
+
+    /**
+     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"data"})
      * @Rest\Get("/sensors/{id}/data/week")
      * @Rest\QueryParam(name="day", requirements="\d+", default="1", description="jour")
      * @Rest\QueryParam(name="month", requirements="\d+", default="1", description="month")
@@ -121,6 +152,40 @@ class DataController extends Controller
             ->getByWeek($id, new \DateTime($year.'-'.$month.'-'.$day));
 
         return $data;
+    }
+
+    /**
+     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"data"})
+     * @Rest\Get("/sensors/data/week")
+     * @Rest\QueryParam(name="day", requirements="\d+", default="1", description="jour")
+     * @Rest\QueryParam(name="month", requirements="\d+", default="1", description="month")
+     * @Rest\QueryParam(name="year", requirements="\d+", default="2017", description="year")
+     */
+    public function getFullDataWeekAction(ParamFetcher $paramFetcher)
+    {
+        $day = $paramFetcher->get('day');
+        $month = $paramFetcher->get('month');
+        $year = $paramFetcher->get('year');
+
+        $em = $this
+            ->getDoctrine()
+            ->getManager();
+
+        $sensor = $em
+            ->getRepository('DTREOeilBundle:Sensor')
+            ->findAll();
+
+        if (NULL === $sensor) {
+            return View::create(['message' => 'Sensor not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        foreach ($sensor as $s){
+            $s->setData(
+                $em
+                ->getRepository('DTREOeilBundle:Data')
+                ->getByWeek($s->getId(),new \DateTime($year.'-'.$month.'-'.$day)));
+        }
+        return $sensor;
     }
 
     /**

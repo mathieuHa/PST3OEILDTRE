@@ -59,6 +59,93 @@ class ImageController extends Controller
     }
 
     /**
+     * @Rest\View(statusCode=Response::HTTP_OK)
+     * @Rest\Get("/media/images/day")
+     * @Rest\QueryParam(name="day", requirements="\d+", default="1", description="jour")
+     * @Rest\QueryParam(name="month", requirements="\d+", default="1", description="month")
+     * @Rest\QueryParam(name="year", requirements="\d+", default="2017", description="year")
+     */
+    public function getImagesDayAction(ParamFetcher $paramFetcher)
+    {
+        $day = $paramFetcher->get('day');
+        $month = $paramFetcher->get('month');
+        $year = $paramFetcher->get('year');
+
+        $em = $this
+            ->getDoctrine()
+            ->getManager();
+        $images = $em
+            ->getRepository('DTREOeilBundle:Image')
+            ->getByDay();
+
+        return $images;
+    }
+
+    /**
+     * @Rest\View(statusCode=Response::HTTP_OK)
+     * @Rest\Get("/media/images/week")
+     * @Rest\QueryParam(name="day", requirements="\d+", default="1", description="jour")
+     * @Rest\QueryParam(name="month", requirements="\d+", default="1", description="month")
+     * @Rest\QueryParam(name="year", requirements="\d+", default="2017", description="year")
+     */
+    public function getImagesWeekAction(ParamFetcher $paramFetcher)
+    {
+        $day = $paramFetcher->get('day');
+        $month = $paramFetcher->get('month');
+        $year = $paramFetcher->get('year');
+
+        $em = $this
+            ->getDoctrine()
+            ->getManager();
+        $images = $em
+            ->getRepository('DTREOeilBundle:Image')
+            ->getByWeek();
+
+        return $images;
+    }
+
+    /**
+     * @Rest\View(statusCode=Response::HTTP_OK)
+     * @Rest\Get("/media/images/month")
+     * @Rest\QueryParam(name="month", requirements="\d+", default="1", description="month")
+     * @Rest\QueryParam(name="year", requirements="\d+", default="2017", description="year")
+     */
+    public function getImagesMonthAction(ParamFetcher $paramFetcher)
+    {
+        $month = $paramFetcher->get('month');
+        $year = $paramFetcher->get('year');
+
+        $em = $this
+            ->getDoctrine()
+            ->getManager();
+        $images = $em
+            ->getRepository('DTREOeilBundle:Image')
+            ->getByMonth();
+
+        return $images;
+    }
+
+    /**
+     * @Rest\View(statusCode=Response::HTTP_OK)
+     * @Rest\Get("/media/images/year")
+     * @Rest\QueryParam(name="year", requirements="\d+", default="2017", description="year")
+     */
+    public function getImagesYearAction(ParamFetcher $paramFetcher)
+    {
+        $year = $paramFetcher->get('year');
+
+        $em = $this
+            ->getDoctrine()
+            ->getManager();
+        $images = $em
+            ->getRepository('DTREOeilBundle:Image')
+            ->getByYear();
+
+        return $images;
+    }
+
+
+    /**
      * @Rest\View(statusCode=Response::HTTP_CREATED, serializerGroups={"image"})
      * @Rest\Post("/media/image")
      */

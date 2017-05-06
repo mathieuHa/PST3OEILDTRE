@@ -1,6 +1,7 @@
 <?php
-
 namespace DTRE\OeilBundle\Repository;
+use DateInterval;
+
 
 /**
  * ImageRepository
@@ -10,4 +11,78 @@ namespace DTRE\OeilBundle\Repository;
  */
 class ImageRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getByDay(\Datetime $date)
+    {
+        $dateDay= new \DateTime($date->format("Y-m-d"));
+        $qb = $this->createQueryBuilder("d");
+
+        $qb->select('d')
+            ->where('d.date = :date')
+            ->setParameter('date', $dateDay);
+
+        return $qb->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    public function getByWeek(\Datetime $date)
+    {
+        $from = new \DateTime($date->format("Y-m-d")." 00:00:00");
+        $to   = new \DateTime($date->format("Y-m-d")." 00:00:00");
+        $interval = new DateInterval('P0Y0M7DT0H0M0S'); //1min
+        $to->add($interval);
+        $interval = new DateInterval('P0Y0M0DT0H0M1S'); //1min
+        $to->sub($interval);
+
+        $qb = $this->createQueryBuilder("d");
+        $qb
+            ->Where('d.date BETWEEN :from AND :to')
+            ->setParameter('from', $from )
+            ->setParameter('to', $to)
+        ;
+        $result = $qb->getQuery()->getResult();
+
+        return $result;
+    }
+
+    public function getByMonth(\Datetime $date)
+    {
+        $from = new \DateTime($date->format("Y-m-d")." 00:00:00");
+        $to   = new \DateTime($date->format("Y-m-d")." 00:00:00");
+        $interval = new DateInterval('P0Y1M0DT0H0M0S'); //1min
+        $to->add($interval);
+        $interval = new DateInterval('P0Y0M0DT0H0M1S'); //1min
+        $to->sub($interval);
+
+        $qb = $this->createQueryBuilder("d");
+        $qb
+            ->andWhere('d.date BETWEEN :from AND :to')
+            ->setParameter('from', $from )
+            ->setParameter('to', $to)
+        ;
+        $result = $qb->getQuery()->getResult();
+
+        return $result;
+    }
+
+    public function getByYear(\Datetime $date)
+    {
+        $from = new \DateTime($date->format("Y-m")." 00:00:00");
+        $to   = new \DateTime($date->format("Y-m")." 00:00:00");
+        $interval = new DateInterval('P1Y0M0DT0H0M0S'); //1min
+        $to->add($interval);
+        $interval = new DateInterval('P0Y0M0DT0H0M1S'); //1min
+        $to->sub($interval);
+
+        $qb = $this->createQueryBuilder("d");
+        $qb
+            ->andWhere('d.date BETWEEN :from AND :to')
+            ->andWhere('d.date LIKE :day')
+            ->setParameter('from', $from )
+            ->setParameter('to', $to)
+            ->setParameter('day', '%01 00:00:00%')
+        ;
+        $result = $qb->getQuery()->getResult();
+
+        return $result;
+    }
 }

@@ -1,26 +1,40 @@
+root:
+    path: /
+    defaults:
+        _controller: FrameworkBundle:Redirect:urlRedirect
+        path: /api
+        permanent: true
+
+
 sensors:
     type:     rest
     resource: DTRE\OeilBundle\Controller\SensorController
+    prefix:   /api
 
 image:
     type:     rest
     resource: DTRE\OeilBundle\Controller\ImageController
+    prefix:   /api
 
 data:
     type:     rest
     resource: DTRE\OeilBundle\Controller\DataController
+    prefix:   /api
 
 dailydata:
     type:     rest
     resource: DTRE\OeilBundle\Controller\DailyDataController
+    prefix:   /api
 
 users:
     type:     rest
     resource: DTRE\OeilBundle\Controller\UserController
+    prefix:   /api
 
 auth-tokens:
     type:     rest
     resource: DTRE\OeilBundle\Controller\AuthTokenController
+    prefix:   /oeil
 
 easy_admin_bundle:
     resource: "@EasyAdminBundle/Controller/"

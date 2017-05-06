@@ -41,6 +41,23 @@ class ImageController extends Controller
 
         return $image;
     }
+
+    /**
+     * @Rest\View(statusCode=Response::HTTP_OK)
+     * @Rest\Get("/media/images")
+     */
+    public function getImagesAction()
+    {
+        $em = $this
+            ->getDoctrine()
+            ->getManager();
+        $images = $em
+            ->getRepository('DTREOeilBundle:Image')
+            ->findAll();
+
+        return $images;
+    }
+
     /**
      * @Rest\View(statusCode=Response::HTTP_CREATED, serializerGroups={"image"})
      * @Rest\Post("/media/image")

@@ -34,7 +34,7 @@ users:
 auth-tokens:
     type:     rest
     resource: DTRE\OeilBundle\Controller\AuthTokenController
-    prefix:   /oeil
+    prefix:   /api
 
 easy_admin_bundle:
     resource: "@EasyAdminBundle/Controller/"

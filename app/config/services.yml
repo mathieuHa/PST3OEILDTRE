@@ -4,4 +4,22 @@ parameters:
 #    parameter_name: value
 
 services:
+    auth_token_user_provider:
+        class: DTRE\OeilBundle\Security\AuthTokenUserProvider
+        arguments: ["@auth_token_repository", "@user_repository"]
+        public:    false
 
+    auth_token_repository:
+        class:   Doctrine\ORM\EntityManager
+        factory: ["@doctrine.orm.entity_manager", "getRepository"]
+        arguments: ["DTREOeilBundle:AuthToken"]
+
+    user_repository:
+        class:   Doctrine\ORM\EntityManager
+        factory: ["@doctrine.orm.entity_manager", "getRepository"]
+        arguments: ["DTREOeilBundle:User"]
+
+    auth_token_authenticator:
+        class:     DTRE\OeilBundle\Security\AuthTokenAuthenticator
+        arguments: ["@security.http_utils"]
+        public:    false

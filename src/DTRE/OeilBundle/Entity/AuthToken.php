@@ -1,126 +1,91 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: kafim
+ * Date: 07/05/2017
+ * Time: 12:13
+ */
 
 namespace DTRE\OeilBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
 
 /**
- * AuthToken
- *
- * @ORM\Table(name="auth_token")
  * @ORM\Entity(repositoryClass="DTRE\OeilBundle\Repository\AuthTokenRepository")
+ * @ORM\Table(name="auth_token",
+ *      uniqueConstraints={@ORM\UniqueConstraint(name="auth_tokens_value_unique", columns={"value"})}
+ * )
  */
 class AuthToken
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
+     * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
-     * @var string
+     * @ORM\Column(type="string")
      *
-     * @ORM\Column(name="value", type="string", length=255, nullable=true, unique=true)
      */
-    private $value;
+    protected $value;
 
     /**
+     * @ORM\Column(type="datetime")
      * @var \DateTime
      *
-     * @ORM\Column(name="createdAt", type="datetime")
      */
-    private $createdAt;
+    protected $createdAt;
 
     /**
      * @ORM\ManyToOne(targetEntity="User")
      * @var User
+     *
      */
     protected $user;
 
 
-    /**
-     * Get id
-     *
-     * @return int
-     */
     public function getId()
     {
         return $this->id;
     }
 
-    /**
-     * Set value
-     *
-     * @param string $value
-     *
-     * @return AuthToken
-     */
-    public function setValue($value)
+    public function setId($id)
     {
-        $this->value = $value;
-
-        return $this;
+        $this->id = $id;
     }
 
-    /**
-     * Get value
-     *
-     * @return string
-     */
     public function getValue()
     {
         return $this->value;
     }
 
-    /**
-     * Set createdAt
-     *
-     * @param \DateTime $createdAt
-     *
-     * @return AuthToken
-     */
-    public function setCreatedAt($createdAt)
+    public function setValue($value)
     {
-        $this->createdAt = $createdAt;
-
-        return $this;
+        $this->value = $value;
     }
 
-    /**
-     * Get createdAt
-     *
-     * @return \DateTime
-     */
     public function getCreatedAt()
     {
         return $this->createdAt;
     }
 
-    /**
-     * Set user
-     *
-     * @param \DTRE\OeilBundle\Entity\User $user
-     *
-     * @return AuthToken
-     */
-    public function setUser(\DTRE\OeilBundle\Entity\User $user = null)
+    public function setCreatedAt(\DateTime $createdAt)
     {
-        $this->user = $user;
-
-        return $this;
+        $this->createdAt = $createdAt;
     }
 
-    /**
-     * Get user
-     *
-     * @return \DTRE\OeilBundle\Entity\User
-     */
     public function getUser()
     {
         return $this->user;
+    }
+
+    public function setUser(User $user)
+    {
+        $this->user = $user;
     }
 }

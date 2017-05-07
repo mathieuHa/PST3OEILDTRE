@@ -14,148 +14,88 @@ use FOS\RestBundle\Controller\Annotations as Rest; // alias pour toutes les anno
 class UserController extends Controller
 {
     /**
-     * @Rest\View(statusCode=Response::HTTP_OK)
-     * @Rest\Get("/users")
-     */
-    public function getUsersAction()
-    {
-        $users = $this
-            ->getDoctrine()
-            ->getRepository('DTREOeilBundle:User')
-            ->findAll();
-
-        return $users;
-    }
-
-    /**
-     * @Rest\View(statusCode=Response::HTTP_OK)
-     * @Rest\Get("/users/{id}")
-     */
-    public function getUserAction(Request $request)
-    {
-        $user = $this
-            ->getDoctrine()
-            ->getRepository('DTREOeilBundle:User')
-            ->find($request->get('id'));
-
-        if (NULL ===$user) {
-            return View::create(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
-        }
-
-        return $user;
-    }
-
-    /**
-     * @Rest\View(statusCode=Response::HTTP_CREATED, serializerGroups={"user"})
+     * @Rest\View(statusCode=Response::HTTP_CREATED)
      * @Rest\Post("/users")
      */
     public function postUsersAction(Request $request)
     {
         $user = new User();
-
         $form = $this->createForm(UserType::class, $user, ['validation_groups'=>['Default', 'New']]);
 
         $form->submit($request->request->all());
-        if ($form->isValid()){
+
+        if ($form->isValid()) {
             $encoder = $this->get('security.password_encoder');
             // le mot de passe en claire est encodé avant la sauvegarde
             $encoded = $encoder->encodePassword($user, $user->getPlainPassword());
             $user->setPassword($encoded);
-            $em = $this
-                ->getDoctrine()
-                ->getManager();
+
+            $em = $this->get('doctrine.orm.entity_manager');
             $em->persist($user);
             $em->flush();
             return $user;
-        }
-        else {
+        } else {
             return $form;
         }
     }
 
     /**
-     * @Rest\View(statusCode=Response::HTTP_NO_CONTENT)
-     * @Rest\Delete("/users/{id}")
+     * @Rest\View(serializerGroups={"user"})
+     * @Rest\Put("/users/{id}")
      */
-    public function deleteUsersAction(Request $request)
+    public function updateUserAction(Request $request)
     {
-        $user = $this
-            ->getDoctrine()
-            ->getRepository('DTREOeilBundle:User')
-            ->find($request->get('id'));
-        if ($user){
-            $em = $this
-                ->getDoctrine()
-                ->getManager();
-            $em->remove($user);
-            $em->flush();
-        }
+        return $this->updateUser($request, true);
     }
 
     /**
-     * @Rest\View(statusCode=Response::HTTP_OK)
-     * @Rest\Put("/users/{id}")
+     * @Rest\View(serializerGroups={"user"})
+     * @Rest\Patch("/users/{id}")
      */
-    public function putUsersAction(Request $request)
+    public function patchUserAction(Request $request)
     {
-        $user = $this
-            ->getDoctrine()
-            ->getRepository('DTREOeilBundle:User')
-            ->find($request->get('id'));
+        return $this->updateUser($request, false);
+    }
 
-        if (NULL ===$user) {
-            return View::create(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
+    private function updateUser(Request $request, $clearMissing)
+    {
+        $user = $this->get('doctrine.orm.entity_manager')
+            ->getRepository('DTREOeilBundle:User')
+            ->find($request->get('id')); // L'identifiant en tant que paramètre n'est plus nécessaire
+        /* @var $user User */
+
+        if (empty($user)) {
+            return $this->userNotFound();
         }
-        $options = ['validation_groups'=>['Default', 'FullUpdate']];
+
+        if ($clearMissing) { // Si une mise à jour complète, le mot de passe doit être validé
+            $options = ['validation_groups'=>['Default', 'FullUpdate']];
+        } else {
+            $options = []; // Le groupe de validation par défaut de Symfony est Default
+        }
+
         $form = $this->createForm(UserType::class, $user, $options);
 
-        $form->submit($request->request->all());
-        if ($form->isValid()){
+        $form->submit($request->request->all(), $clearMissing);
+
+        if ($form->isValid()) {
+            // Si l'utilisateur veut changer son mot de passe
             if (!empty($user->getPlainPassword())) {
                 $encoder = $this->get('security.password_encoder');
                 $encoded = $encoder->encodePassword($user, $user->getPlainPassword());
                 $user->setPassword($encoded);
             }
-            $em = $this
-                ->getDoctrine()
-                ->getManager();
-            $em->persist($user);
+            $em = $this->get('doctrine.orm.entity_manager');
+            $em->merge($user);
             $em->flush();
             return $user;
-        }
-        else {
+        } else {
             return $form;
         }
     }
 
-    /**
-     * @Rest\View(statusCode=Response::HTTP_OK,  serializerGroups={"user"})
-     * @Rest\Patch("/users/{id}")
-     */
-    public function patchUsersAction(Request $request)
+    private function userNotFound()
     {
-        $user = $this
-            ->getDoctrine()
-            ->getRepository('DTREOeilBundle:User')
-            ->find($request->get('id'));
-
-        if (NULL ===$user) {
-            return View::create(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
-        }
-
-        $form = $this->createForm(UserType::class, $user);
-
-        $form->submit($request->request->all(), false);
-        if ($form->isValid()){
-            $em = $this
-                ->getDoctrine()
-                ->getManager();
-            $em->persist($user);
-            $em->flush();
-            return $user;
-        }
-        else {
-            return $form;
-        }
+        return \FOS\RestBundle\View\View::create(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
     }
 }

@@ -1,9 +1,9 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: mat
- * Date: 24/01/2017
- * Time: 12:05
+ * User: kafim
+ * Date: 07/05/2017
+ * Time: 12:45
  */
 
 namespace DTRE\OeilBundle\Security;
@@ -22,9 +22,9 @@ use Symfony\Component\Security\Http\HttpUtils;
 class AuthTokenAuthenticator implements SimplePreAuthenticatorInterface, AuthenticationFailureHandlerInterface
 {
     /**
-     * Durée de validité du token en secondes, 12 heures
+     * Durée de validité du token en secondes, 1 min
      */
-    const TOKEN_VALIDITY_DURATION = 12 * 3600;
+    const TOKEN_VALIDITY_DURATION = 3600;
 
     protected $httpUtils;
 
@@ -35,8 +35,7 @@ class AuthTokenAuthenticator implements SimplePreAuthenticatorInterface, Authent
 
     public function createToken(Request $request, $providerKey)
     {
-
-        $targetUrl = '/auth-tokens';
+        $targetUrl = '/api/auth-tokens';
         // Si la requête est une création de token, aucune vérification n'est effectuée
         if ($request->getMethod() === "POST" && $this->httpUtils->checkRequestPath($request, $targetUrl)) {
             return;

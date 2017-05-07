@@ -2,12 +2,14 @@ DTRE\OeilBundle\Entity\User:
     attributes:
         id:
             groups: ['user', 'preference', 'auth-token']
-        prenom:
+        firstname:
             groups: ['user', 'preference', 'auth-token']
-        nom:
+        lastname:
             groups: ['user', 'preference', 'auth-token']
-        mail:
+        email:
             groups: ['user', 'preference', 'auth-token']
+        preferences:
+            groups: ['user']
 
 DTRE\OeilBundle\Entity\AuthToken:
     attributes:

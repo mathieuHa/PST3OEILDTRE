@@ -10,6 +10,7 @@ use DTRE\OeilBundle\Form\DailyDataType;
 use DTRE\OeilBundle\Form\DataType;
 use DTRE\OeilBundle\Form\ImageType;
 use DTRE\OeilBundle\Form\SensorType;
+use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\View\View;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
@@ -44,18 +45,40 @@ class ImageController extends Controller
 
     /**
      * @Rest\View(statusCode=Response::HTTP_OK)
+     * @Rest\QueryParam(
+     *     name="keyword",
+     *     requirements="[a-zA-Z0-9]",
+     *     nullable=true,
+     *     description="The keyword to search for."
+     * )
+     * @Rest\QueryParam(
+     *     name="order",
+     *     requirements="asc|desc",
+     *     default="asc",
+     *     description="Sort order (asc or desc)"
+     * )
+     * @Rest\QueryParam(
+     *     name="limit",
+     *     requirements="\d+",
+     *     default="10",
+     *     description="Max number of image per page."
+     * )
+     * @Rest\QueryParam(
+     *     name="offset",
+     *     requirements="\d+",
+     *     default="0",
+     *     description="The pagination offset"
+     * )
      * @Rest\Get("/media/images")
      */
-    public function getImagesAction()
+    public function getImagesAction(ParamFetcherInterface $paramFetcher)
     {
-        $em = $this
+        $imagesPager = $this
             ->getDoctrine()
-            ->getManager();
-        $images = $em
             ->getRepository('DTREOeilBundle:Image')
             ->findAll();
 
-        return $images;
+        return $imagesPager;
     }
 
     /**

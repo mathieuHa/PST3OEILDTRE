@@ -35,7 +35,7 @@ framework:
     php_errors:
         log: true
     serializer:
-        enabled: true
+        enabled: false
 
 # Twig Configuration
 twig:
@@ -83,9 +83,14 @@ fos_rest:
             - { path: '^/', priorities: ['json'], fallback_format: 'json' }
     exception:
         enabled: true
+        messages:
+            'Symfony\Component\HttpKernel\Exception\HttpException' : true
+            'Symfony\Component\Security\Core\Exception\BadCredentialsException': true
+        codes:
+            'Symfony\Component\Security\Core\Exception\BadCredentialsException': 401
 
-    param_fetcher_listener:
-        enabled: true
+    param_fetcher_listener: force
+
 
 nelmio_cors:
         defaults:
@@ -104,3 +109,9 @@ nelmio_cors:
                 allow_headers: ['X-Custom-Auth']
                 allow_methods: ['POST', 'PUT', 'GET', 'DELETE']
                 max_age: 3600
+
+jms_serializer:
+    handlers:
+        datetime:
+            default_format: "Y-m-d\\TH:i:sP"
+            default_timezone: "UTC"

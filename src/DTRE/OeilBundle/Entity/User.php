@@ -5,12 +5,15 @@ namespace DTRE\OeilBundle\Entity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use JMS\Serializer\Annotation as Serializer;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
 
 /**
- * User
- *
- * @ORM\Table(name="user", uniqueConstraints={@ORM\UniqueConstraint(name="user_mail_unique",columns={"mail"})})
- * @ORM\Entity(repositoryClass="DTRE\OeilBundle\Repository\UserRepository")
+ * @ORM\Entity()
+ * @ORM\Table(name="users",
+ *      uniqueConstraints={@ORM\UniqueConstraint(name="users_email_unique",columns={"mail"})}
+ * )
  */
 class User implements UserInterface
 {
@@ -22,21 +25,18 @@ class User implements UserInterface
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
     /**
      * @var string
      *
      * @ORM\Column(name="nom", type="string", length=255)
      */
     private $nom;
-
     /**
      * @var string
      *
      * @ORM\Column(name="prenom", type="string", length=255)
      */
     private $prenom;
-
     /**
      * @var string
      *
@@ -44,21 +44,13 @@ class User implements UserInterface
      */
     private $password;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="plainpassword", type="string", length=255)
-     */
     private $plainpassword;
-
     /**
      * @var string
      *
      * @ORM\Column(name="mail", type="string", length=255, unique=true)
      */
     private $mail;
-
-
     /**
      * Get id
      *
@@ -68,7 +60,6 @@ class User implements UserInterface
     {
         return $this->id;
     }
-
     /**
      * Set nom
      *
@@ -79,10 +70,8 @@ class User implements UserInterface
     public function setNom($nom)
     {
         $this->nom = $nom;
-
         return $this;
     }
-
     /**
      * Get nom
      *
@@ -92,7 +81,6 @@ class User implements UserInterface
     {
         return $this->nom;
     }
-
     /**
      * Set prenom
      *
@@ -103,10 +91,8 @@ class User implements UserInterface
     public function setPrenom($prenom)
     {
         $this->prenom = $prenom;
-
         return $this;
     }
-
     /**
      * Get prenom
      *
@@ -116,7 +102,6 @@ class User implements UserInterface
     {
         return $this->prenom;
     }
-
     /**
      * Set mail
      *
@@ -127,10 +112,8 @@ class User implements UserInterface
     public function setMail($mail)
     {
         $this->mail = $mail;
-
         return $this;
     }
-
     /**
      * Get mail
      *
@@ -140,7 +123,6 @@ class User implements UserInterface
     {
         return $this->mail;
     }
-
     /**
      * Set password
      *
@@ -151,10 +133,8 @@ class User implements UserInterface
     public function setPassword($password)
     {
         $this->password = $password;
-
         return $this;
     }
-
     /**
      * Get password
      *
@@ -164,7 +144,6 @@ class User implements UserInterface
     {
         return $this->password;
     }
-
     /**
      * Set plainpassword
      *
@@ -175,10 +154,8 @@ class User implements UserInterface
     public function setPlainpassword($plainpassword)
     {
         $this->plainpassword = $plainpassword;
-
         return $this;
     }
-
     /**
      * Get plainpassword
      *
@@ -188,23 +165,18 @@ class User implements UserInterface
     {
         return $this->plainpassword;
     }
-
-
     public function getRoles()
     {
         return [];
     }
-
     public function getSalt()
     {
         return null;
     }
-
     public function getUsername()
     {
         return $this->mail;
     }
-
     public function eraseCredentials()
     {
         // Suppression des données sensibles

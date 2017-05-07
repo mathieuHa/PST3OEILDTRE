@@ -13,6 +13,8 @@ use FOS\RestBundle\Controller\Annotations as Rest; // alias pour toutes les anno
 
 class UserController extends Controller
 {
+
+
     /**
      * @Rest\View(statusCode=Response::HTTP_CREATED)
      * @Rest\Post("/users")

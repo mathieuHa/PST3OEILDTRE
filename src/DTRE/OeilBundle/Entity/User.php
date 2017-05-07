@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use JMS\Serializer\Annotation as Serializer;
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
+use FOS\UserBundle\Model\User as BaseUser;
 
 /**
  * @ORM\Entity()
@@ -180,6 +181,6 @@ class User implements UserInterface
     public function eraseCredentials()
     {
         // Suppression des données sensibles
-        $this->plainPassword = null;
+        $this->plainpassword = null;
     }
 }

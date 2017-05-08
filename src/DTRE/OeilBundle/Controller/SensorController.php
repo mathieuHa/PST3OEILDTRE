@@ -24,16 +24,15 @@ class SensorController extends Controller
      */
     public function getSensorsAction()
     {
-        $sensor = $this
+        $sensors = $this
             ->getDoctrine()
             ->getRepository('DTREOeilBundle:Sensor')
             ->findAll();
 
-        if (NULL ===$sensor) {
-            return View::create(['message' => 'Sensor not found'], Response::HTTP_NOT_FOUND);
+        if (NULL ===$sensors) {
+            return View::create(['message' => 'Sensors not found'], Response::HTTP_NOT_FOUND);
         }
-
-        return $sensor;
+        return $sensors;
     }
 
     /**

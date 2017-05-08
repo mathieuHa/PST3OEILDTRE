@@ -35,7 +35,7 @@ framework:
     php_errors:
         log: true
     serializer:
-        enabled: false
+        enabled: true
 
 # Twig Configuration
 twig:
@@ -110,8 +110,3 @@ nelmio_cors:
                 allow_methods: ['POST', 'PUT', 'GET', 'DELETE']
                 max_age: 3600
 
-jms_serializer:
-    handlers:
-        datetime:
-            default_format: "Y-m-d\\TH:i:sP"
-            default_timezone: "UTC"

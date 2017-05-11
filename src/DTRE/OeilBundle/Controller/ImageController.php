@@ -18,6 +18,8 @@ use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Request\ParamFetcher;
+use Symfony\Component\Process\Exception\ProcessFailedException;
+use Symfony\Component\Process\Process;
 
 
 class ImageController extends Controller
@@ -104,6 +106,17 @@ class ImageController extends Controller
         return $images;
     }
 
+    public function takePicture (){
+        $process = new Process('/bin/sh /home/pi/oeildtre/pst3oeildtrearduino/cam.sh im 1');
+        $process->run();
+
+        if (!$process->isSuccessful()) {
+            throw new ProcessFailedException($process);
+        }
+
+        echo $process->getOutput();
+    }
+
     /**
      * @Rest\View(statusCode=Response::HTTP_OK)
      * @Rest\Get("/media/images/week")
@@ -176,7 +189,7 @@ class ImageController extends Controller
     {
         $image = new Image();
         $form = $this->createForm(ImageType::class, $image);
-
+        $this->takePicture();
         $form->submit($request->request->all());
 
         if ($form->isValid()){

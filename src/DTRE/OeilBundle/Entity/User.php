@@ -26,18 +26,13 @@ class User implements UserInterface
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
     /**
      * @var string
      *
-     * @ORM\Column(name="nom", type="string", length=255)
+     * @ORM\Column(name="login", type="string", length=255)
      */
-    private $nom;
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="prenom", type="string", length=255)
-     */
-    private $prenom;
+    private $login;
     /**
      * @var string
      *
@@ -61,47 +56,27 @@ class User implements UserInterface
     {
         return $this->id;
     }
+
     /**
-     * Set nom
+     * Set login
      *
-     * @param string $nom
+     * @param string $login
      *
      * @return User
      */
-    public function setNom($nom)
+    public function setLogin($login)
     {
-        $this->nom = $nom;
+        $this->login = $login;
         return $this;
     }
     /**
-     * Get nom
+     * Get login
      *
      * @return string
      */
-    public function getNom()
+    public function getLogin()
     {
-        return $this->nom;
-    }
-    /**
-     * Set prenom
-     *
-     * @param string $prenom
-     *
-     * @return User
-     */
-    public function setPrenom($prenom)
-    {
-        $this->prenom = $prenom;
-        return $this;
-    }
-    /**
-     * Get prenom
-     *
-     * @return string
-     */
-    public function getPrenom()
-    {
-        return $this->prenom;
+        return $this->login;
     }
     /**
      * Set mail

@@ -8,13 +8,24 @@ use FOS\RestBundle\View\View;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use FOS\RestBundle\Controller\Annotations as Rest; // alias pour toutes les annotations
+use FOS\RestBundle\Controller\Annotations as Rest;
+use Symfony\Component\Process\Exception\ProcessFailedException;
+use Symfony\Component\Process\Process; // alias pour toutes les annotations
 
 
 class UserController extends Controller
 {
 
+    public function createUserOnDisk ($name){
+        $process = new Process('/bin/sh /home/pi/oeildtre/pst3oeildtrearduino/new_user.sh ' . $name);
+        $process->run();
 
+        if (!$process->isSuccessful()) {
+            throw new ProcessFailedException($process);
+        }
+
+        return $process->getOutput();
+    }
     /**
      * @Rest\View(statusCode=Response::HTTP_CREATED)
      * @Rest\Post("/users")
@@ -31,6 +42,7 @@ class UserController extends Controller
             // le mot de passe en claire est encodé avant la sauvegarde
             $encoded = $encoder->encodePassword($user, $user->getPlainPassword());
             $user->setPassword($encoded);
+            $this->createUserOnDisk($user->getLogin());
 
             $em = $this->get('doctrine.orm.entity_manager');
             $em->persist($user);

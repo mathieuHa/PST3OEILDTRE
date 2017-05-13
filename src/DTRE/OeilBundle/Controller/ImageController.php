@@ -106,8 +106,8 @@ class ImageController extends Controller
         return $images;
     }
 
-    public function takePicture (){
-        $process = new Process('/bin/sh /home/pi/oeildtre/pst3oeildtrearduino/cam.sh im 1');
+    public function takePicture ($user){
+        $process = new Process('/bin/sh /home/pi/oeildtre/pst3oeildtrearduino/pic.sh '.$user);
         $process->run();
 
         if (!$process->isSuccessful()) {
@@ -189,7 +189,8 @@ class ImageController extends Controller
     {
         $image = new Image();
         $form = $this->createForm(ImageType::class, $image);
-        $this->takePicture();
+        $user = $this->getUser();
+        $this->takePicture($user);
         $form->submit($request->request->all());
 
         if ($form->isValid()){

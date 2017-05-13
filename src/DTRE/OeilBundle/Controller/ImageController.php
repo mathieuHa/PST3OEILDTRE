@@ -190,7 +190,7 @@ class ImageController extends Controller
         $image = new Image();
         $form = $this->createForm(ImageType::class, $image);
         $user = $this->getUser();
-        $this->takePicture($user);
+        $url = $this->takePicture($user);
         $form->submit($request->request->all());
 
         if ($form->isValid()){

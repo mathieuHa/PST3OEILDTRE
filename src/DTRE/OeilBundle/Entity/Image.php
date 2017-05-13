@@ -48,6 +48,14 @@ class Image
     /**
      * @var string
      *
+     * @ORM\Column(name="urlth", type="string", length=255)
+     * @Expose
+     */
+    private $urlth;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="auteur", type="string", length=255)
      * @Expose
      */
@@ -141,5 +149,29 @@ class Image
     public function getAuteur()
     {
         return $this->auteur;
+    }
+
+    /**
+     * Set urlth
+     *
+     * @param string $urlth
+     *
+     * @return Image
+     */
+    public function setUrlth($urlth)
+    {
+        $this->urlth = $urlth;
+
+        return $this;
+    }
+
+    /**
+     * Get urlth
+     *
+     * @return string
+     */
+    public function getUrlth()
+    {
+        return $this->urlth;
     }
 }

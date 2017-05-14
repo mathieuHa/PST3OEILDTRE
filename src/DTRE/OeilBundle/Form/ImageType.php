@@ -17,7 +17,7 @@ class ImageType extends AbstractType
     {
         $builder
             ->add('url')
-            ->add('user', IntegerType::class)
+            ->add('userid', IntegerType::class)
             ->add('urlth');
     }
     

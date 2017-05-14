@@ -225,9 +225,9 @@ class ImageController extends Controller
             $token = $this
                 ->getDoctrine()
                 ->getRepository('DTREOeilBundle:AuthToken')
-                ->findOneByValue($tokenv);
+                ->getToken($tokenv);
             if (NULL ===$token) {
-                return View::create(['message' => 'Token not found'], Response::HTTP_NOT_FOUND);
+                return View::create(['message' => 'Token not found'.$tokenv], Response::HTTP_NOT_FOUND);
             }
             $user = $token->getUser();
             if (NULL ===$user) {

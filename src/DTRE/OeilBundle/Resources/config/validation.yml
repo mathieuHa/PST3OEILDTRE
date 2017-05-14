@@ -33,6 +33,7 @@ DTRE\OeilBundle\Entity\Image:
             - NotBlank: ~
             - Type: string
         date:
-            - NotBlank: ~
+            - DateTime: ~
         user:
             - NotBlank: ~
+            - Type: integer

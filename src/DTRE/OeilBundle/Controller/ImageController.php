@@ -210,6 +210,7 @@ class ImageController extends Controller
     {
         $image = new Image();
         $image->setDate(new \DateTime());
+        $image->setUser($this->getUser());
         $form = $this->createForm(ImageType::class, $image);
 
         $form->submit($request->request->all());

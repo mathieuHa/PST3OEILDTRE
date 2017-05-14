@@ -13,6 +13,7 @@ use DTRE\OeilBundle\Form\SensorType;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\View\View;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -106,8 +107,29 @@ class ImageController extends Controller
         return $images;
     }
 
+    /**
+     * @Rest\View(statusCode=Response::HTTP_OK)
+     * @Rest\Get("/media/images/shot")
+     * @Rest\QueryParam(name="id", requirements="\d+", default="1", description="id")
+     */
+    public function getPictureAction(ParamFetcher $paramFetcher)
+    {
+        $id = $paramFetcher->get('id');
+
+        $em = $this
+            ->getDoctrine()
+            ->getManager();
+        $user = $em
+            ->getRepository('DTREOeilBundle:User')
+            ->find($id);
+
+        $this->takePicture($user);
+
+        return $user;
+    }
+
     public function takePicture ($user){
-        $process = new Process('/bin/sh /home/pi/oeildtre/pst3oeildtrearduino/pic.sh '.$user);
+        $process = new Process('/bin/sh /home/pi/oeildtre/pst3oeildtrearduino/pic.sh '.$user->getId());
         $process->run();
 
         if (!$process->isSuccessful()) {
@@ -169,7 +191,6 @@ class ImageController extends Controller
     public function getImagesYearAction(ParamFetcher $paramFetcher)
     {
         $year = $paramFetcher->get('year');
-
         $em = $this
             ->getDoctrine()
             ->getManager();
@@ -189,8 +210,7 @@ class ImageController extends Controller
     {
         $image = new Image();
         $form = $this->createForm(ImageType::class, $image);
-        $user = $this->getUser();
-        $url = $this->takePicture($user);
+
         $form->submit($request->request->all());
 
         if ($form->isValid()){

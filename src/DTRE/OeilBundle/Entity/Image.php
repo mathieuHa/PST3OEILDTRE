@@ -54,19 +54,13 @@ class Image
     private $urlth;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="auteur", type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="DTRE\OeilBundle\Entity\User")
+     * @ORM\JoinColumn(nullable=false)
      * @Expose
      */
-    private $auteur;
+    private $user;
 
-    /**
-     * Constructor
-     */
-    public function __construct(){
-        $this->date = new DateTime();
-    }
+
 
 
     /**
@@ -173,5 +167,29 @@ class Image
     public function getUrlth()
     {
         return $this->urlth;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \DTRE\OeilBundle\Entity\User $user
+     *
+     * @return Image
+     */
+    public function setUser(\DTRE\OeilBundle\Entity\User $user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \DTRE\OeilBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

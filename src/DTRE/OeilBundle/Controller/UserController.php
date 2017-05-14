@@ -28,7 +28,7 @@ class UserController extends Controller
     }
     /**
      * @Rest\View(statusCode=Response::HTTP_CREATED)
-     * @Rest\Post("/users")
+     * @Rest\Post("/users/new")
      */
     public function postUsersAction(Request $request)
     {

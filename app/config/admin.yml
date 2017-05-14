@@ -6,3 +6,6 @@ easy_admin:
         Users:
             label: 'Users'
             class: DTRE\OeilBundle\Entity\User
+        Image:
+            label: 'Image'
+            class: DTRE\OeilBundle\Entity\Image

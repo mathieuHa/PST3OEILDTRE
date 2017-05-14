@@ -205,13 +205,13 @@ class ImageController extends Controller
 
     /**
      * @Rest\View(statusCode=Response::HTTP_CREATED, serializerGroups={"image"})
-     * @Rest\QueryParam(name="tokenv", description="Token User")
+     * @Rest\QueryParam(name="id", description="Id User")
      * @Rest\Post("/media/image")
      */
     public function postImageAction(Request $request,ParamFetcher $paramFetcher)
     {
         $image = new Image();
-        $tokenv = $paramFetcher->get('tokenv');
+        $id = $paramFetcher->get('id');
         $image->setDate(new \DateTime());
 
         $form = $this->createForm(ImageType::class, $image);
@@ -222,14 +222,11 @@ class ImageController extends Controller
             $em = $this
                 ->getDoctrine()
                 ->getManager();
-            $token = $this
+            $user = $this
                 ->getDoctrine()
-                ->getRepository('DTREOeilBundle:AuthToken')
-                ->findByValue($tokenv);
-            if (NULL ===$token) {
-                return View::create(['message' => 'Token not found'.$tokenv], Response::HTTP_NOT_FOUND);
-            }
-            $user = $token->getUser();
+                ->getRepository('DTREOeilBundle:User')
+                ->find($id);
+
             if (NULL ===$user) {
                 return View::create(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
             }

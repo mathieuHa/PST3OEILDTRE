@@ -42,7 +42,7 @@ class UserController extends Controller
             // le mot de passe en claire est encodé avant la sauvegarde
             $encoded = $encoder->encodePassword($user, $user->getPlainPassword());
             $user->setPassword($encoded);
-            $this->createUserOnDisk($user->getLogin());
+            //$this->createUserOnDisk($user->getLogin());
 
             $em = $this->get('doctrine.orm.entity_manager');
             $em->persist($user);

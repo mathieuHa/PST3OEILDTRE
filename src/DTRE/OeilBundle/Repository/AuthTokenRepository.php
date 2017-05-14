@@ -18,7 +18,7 @@ class AuthTokenRepository extends EntityRepository
         $qb = $this->createQueryBuilder("a");
         $qb
             ->where('a.user = :id')
-            ->orderBy('a.createdAt', 'ASC')
+            ->orderBy('a.createdAt', 'DESC')
             ->setParameter('id', $id)
         ;
         $result = $qb->getQuery()->getOneOrNullResult();

@@ -120,7 +120,6 @@ class ImageController extends Controller
         $em = $this
             ->getDoctrine()
             ->getManager();
-        return $id;
         $token = $em
             ->getRepository('DTREOeilBundle:AuthToken')
             ->getToken($id);

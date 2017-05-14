@@ -54,7 +54,7 @@ class UserController extends Controller
     }
 
     /**
-     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"sensor"})
+     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"user"})
      * @Rest\Get("/users")
      */
     public function getUserAction()

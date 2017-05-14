@@ -2,6 +2,7 @@
 
 namespace DTRE\OeilBundle\Controller;
 
+use DTRE\OeilBundle\DTREOeilBundle;
 use DTRE\OeilBundle\Entity\DailyData;
 use DTRE\OeilBundle\Entity\Data;
 use DTRE\OeilBundle\Entity\Image;
@@ -204,13 +205,19 @@ class ImageController extends Controller
 
     /**
      * @Rest\View(statusCode=Response::HTTP_CREATED, serializerGroups={"image"})
+     * @Rest\QueryParam(name="id", requirements="\d+", default="1", description="Id User")
      * @Rest\Post("/media/image")
      */
-    public function postImageAction(Request $request)
+    public function postImageAction(Request $request,ParamFetcher $paramFetcher)
     {
         $image = new Image();
+        $id = $paramFetcher->get('id');
         $image->setDate(new \DateTime());
-        $image->setUser($this->getUser());
+        $user = $this
+            ->getDoctrine()
+            ->getRepository('DTREOeilBundle:User')
+            ->find($id);
+        $image->setUser($user);
         $form = $this->createForm(ImageType::class, $image);
 
         $form->submit($request->request->all());

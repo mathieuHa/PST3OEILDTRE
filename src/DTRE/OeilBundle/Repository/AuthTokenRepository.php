@@ -15,10 +15,10 @@ class AuthTokenRepository extends EntityRepository
 {
     public function getToken($id)
     {
-        $qb = $this->createQueryBuilder("t");
+        $qb = $this->createQueryBuilder("a");
         $qb
-            ->where('t.user = :id')
-            ->orderBy('t.createdAt', 'ASC')
+            ->where('a.user = :id')
+            ->orderBy('a.createdAt', 'ASC')
             ->setParameter('id', $id)
         ;
         $result = $qb->getQuery()->getOneOrNullResult();

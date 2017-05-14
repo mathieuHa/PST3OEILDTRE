@@ -27,7 +27,7 @@ use Symfony\Component\Process\Process;
 class ImageController extends Controller
 {
     public function ImageNotFound(){
-        return View::create(['message' => 'Image not found'], Response::HTTP_NOT_FOUND);;
+        return View::create(['message' => 'Image not found'], Response::HTTP_NOT_FOUND);
     }
 
     /**
@@ -123,6 +123,9 @@ class ImageController extends Controller
         $token = $em
             ->getRepository('DTREOeilBundle:AuthToken')
             ->getToken($id);
+        if ($token===NULL){
+            return View::create(['message' => 'Token not found'], Response::HTTP_NOT_FOUND);
+        }
         return $token;
         $result = $this->takePicture($id, $token->getValue());
 

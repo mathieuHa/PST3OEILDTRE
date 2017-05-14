@@ -21,7 +21,7 @@ class AuthTokenRepository extends EntityRepository
             ->orderBy('a.createdAt', 'DESC')
             ->setParameter('id', $id)
         ;
-        $result = $qb->getQuery()->getSingleResult();
+        $result = $qb->getQuery()->setMaxResults(1)->getOneOrNullResult();
 
         return $result;
     }

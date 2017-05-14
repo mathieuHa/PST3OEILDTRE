@@ -205,7 +205,7 @@ class ImageController extends Controller
 
     /**
      * @Rest\View(statusCode=Response::HTTP_CREATED, serializerGroups={"image"})
-     * @Rest\QueryParam(name="tokenv", requirements="\d+", default="1", description="Token User")
+     * @Rest\QueryParam(name="tokenv", description="Token User")
      * @Rest\Post("/media/image")
      */
     public function postImageAction(Request $request,ParamFetcher $paramFetcher)

@@ -213,14 +213,7 @@ class ImageController extends Controller
         $image = new Image();
         $id = $paramFetcher->get('id');
         $image->setDate(new \DateTime());
-        $user = $this
-            ->getDoctrine()
-            ->getRepository('DTREOeilBundle:User')
-            ->find($id);
-        if (NULL ===$user) {
-            return View::create(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
-        }
-        $image->setUser($user);
+
         $form = $this->createForm(ImageType::class, $image);
 
         $form->submit($request->request->all());
@@ -229,7 +222,14 @@ class ImageController extends Controller
             $em = $this
                 ->getDoctrine()
                 ->getManager();
-
+            $user = $this
+                ->getDoctrine()
+                ->getRepository('DTREOeilBundle:User')
+                ->find($id);
+            if (NULL ===$user) {
+                return View::create(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
+            }
+            $image->setUser($user);
             $em->persist($image);
             $em->flush();
             return $image;

@@ -13,12 +13,13 @@ use Doctrine\ORM\EntityRepository;
 
 class AuthTokenRepository extends EntityRepository
 {
-    public function getToken($token)
+    public function getToken($id)
     {
         $qb = $this->createQueryBuilder("t");
         $qb
-            ->where('t.value = :value')
-            ->setParameter('value', $token)
+            ->where('t.user_id = :id')
+            ->orderBy('t.createdAt', 'ASC')
+            ->setParameter('id', $id)
         ;
         $result = $qb->getQuery()->getOneOrNullResult();
 

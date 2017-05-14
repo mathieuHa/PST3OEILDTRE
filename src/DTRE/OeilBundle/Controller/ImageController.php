@@ -120,17 +120,17 @@ class ImageController extends Controller
         $em = $this
             ->getDoctrine()
             ->getManager();
-        $user = $em
-            ->getRepository('DTREOeilBundle:User')
-            ->find($id);
+        $token = $em
+            ->getRepository('DTREOeilBundle:AuthToken')
+            ->getToken($id);
 
-        $this->takePicture($user);
+        $this->takePicture($id, $token);
 
-        return $user;
+        return $id;
     }
 
-    public function takePicture ($user){
-        $process = new Process('/bin/sh /home/pi/oeildtre/pst3oeildtrearduino/pic.sh '.$user->getId());
+    public function takePicture ($id, $token){
+        $process = new Process('/bin/sh /home/pi/oeildtre/pst3oeildtrearduino/pic.sh '.$id.' '.$token);
         $process->run();
 
         if (!$process->isSuccessful()) {

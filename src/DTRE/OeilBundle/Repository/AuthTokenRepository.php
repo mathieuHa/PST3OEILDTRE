@@ -13,5 +13,15 @@ use Doctrine\ORM\EntityRepository;
 
 class AuthTokenRepository extends EntityRepository
 {
+    public function getToken($token)
+    {
+        $qb = $this->createQueryBuilder("t");
+        $qb
+            ->where('t.value = :value')
+            ->setParameter('value', $token)
+        ;
+        $result = $qb->getQuery()->getOneOrNullResult();
 
+        return $result;
+    }
 }

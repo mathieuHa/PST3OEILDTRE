@@ -221,6 +221,7 @@ class ImageController extends Controller
             return View::create(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
         }
         $image->setUser($user);
+        return $image;
         $form = $this->createForm(ImageType::class, $image);
 
         $form->submit($request->request->all());

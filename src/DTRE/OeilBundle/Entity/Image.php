@@ -15,7 +15,6 @@ use Symfony\Component\Validator\Constraints\DateTime;
  *
  * @ORM\Entity(repositoryClass="DTRE\OeilBundle\Repository\ImageRepository")
  *
- * @ExclusionPolicy("all")
  */
 class Image
 {
@@ -25,7 +24,6 @@ class Image
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @Expose
      */
     private $id;
 
@@ -33,7 +31,6 @@ class Image
      * @var \DateTime
      *
      * @ORM\Column(name="date", type="datetime")
-     * @Expose
      */
     private $date;
 
@@ -41,7 +38,6 @@ class Image
      * @var string
      *
      * @ORM\Column(name="url", type="string", length=255)
-     * @Expose
      */
     private $url;
 
@@ -49,13 +45,11 @@ class Image
      * @var string
      *
      * @ORM\Column(name="urlth", type="string", length=255)
-     * @Expose
      */
     private $urlth;
 
     /**
      * @ORM\ManyToOne(targetEntity="DTRE\OeilBundle\Entity\User")
-     * @Expose
      */
     private $user;
 

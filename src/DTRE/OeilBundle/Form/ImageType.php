@@ -17,12 +17,7 @@ class ImageType extends AbstractType
         $builder
             ->add('url')
             ->add('user')
-            ->add('urlth')
-            ->add('date',
-            DateTimeType::class,array(
-                'widget' => 'single_text',
-                'format' => 'yyyy-MM-dd  HH:mm'
-            ));
+            ->add('urlth');
     }
     
     /**

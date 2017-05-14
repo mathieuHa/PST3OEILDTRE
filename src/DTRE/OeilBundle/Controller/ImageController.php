@@ -209,6 +209,7 @@ class ImageController extends Controller
     public function postImageAction(Request $request)
     {
         $image = new Image();
+        $image->setDate(new \DateTime());
         $form = $this->createForm(ImageType::class, $image);
 
         $form->submit($request->request->all());

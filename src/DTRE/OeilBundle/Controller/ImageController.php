@@ -126,7 +126,6 @@ class ImageController extends Controller
         if ($token===NULL){
             return View::create(['message' => 'Token not found'], Response::HTTP_NOT_FOUND);
         }
-        return $token;
         $result = $this->takePicture($id, $token->getValue());
 
         return $result;

@@ -124,7 +124,7 @@ class ImageController extends Controller
             ->getRepository('DTREOeilBundle:AuthToken')
             ->getToken($id);
 
-        $this->takePicture($id, $token);
+        $this->takePicture($id, $token->getValue());
 
         return $id;
     }

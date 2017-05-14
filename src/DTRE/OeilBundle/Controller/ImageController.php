@@ -217,6 +217,9 @@ class ImageController extends Controller
             ->getDoctrine()
             ->getRepository('DTREOeilBundle:User')
             ->find($id);
+        if (NULL ===$user) {
+            return View::create(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
+        }
         $image->setUser($user);
         $form = $this->createForm(ImageType::class, $image);
 

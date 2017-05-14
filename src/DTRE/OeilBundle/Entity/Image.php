@@ -55,7 +55,6 @@ class Image
 
     /**
      * @ORM\ManyToOne(targetEntity="DTRE\OeilBundle\Entity\User")
-     * @ORM\JoinColumn(nullable=false)
      * @Expose
      */
     private $user;

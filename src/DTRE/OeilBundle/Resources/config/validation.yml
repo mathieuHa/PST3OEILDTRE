@@ -23,3 +23,18 @@ DTRE\OeilBundle\Entity\Credentials:
         password:
             - NotBlank: ~
             - Type: string
+
+DTRE\OeilBundle\Entity\Image:
+    properties:
+        url:
+            - NotBlank: ~
+            - Type: string
+        urlth:
+            - NotBlank: ~
+            - Type: string
+        date:
+            - NotBlank: ~
+            - Type: string
+        user:
+            - NotBlank: ~
+            - Type: string

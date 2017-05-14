@@ -37,4 +37,3 @@ DTRE\OeilBundle\Entity\Image:
             - Type: string
         user:
             - NotBlank: ~
-            - Type: string

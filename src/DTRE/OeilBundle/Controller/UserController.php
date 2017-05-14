@@ -57,7 +57,7 @@ class UserController extends Controller
      * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"user"})
      * @Rest\Get("/users")
      */
-    public function getUserAction()
+    public function getUsersAction()
     {
         $users = $this
             ->getDoctrine()
@@ -68,6 +68,23 @@ class UserController extends Controller
             return View::create(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
         }
         return $users;
+    }
+
+    /**
+     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"user"})
+     * @Rest\Get("/users/{id}")
+     */
+    public function getUserAction(Request $request)
+    {
+        $user = $this
+            ->getDoctrine()
+            ->getRepository('DTREOeilBundle:User')
+            ->find($request->get('id'));
+
+        if (NULL ===$user) {
+            return View::create(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
+        }
+        return $user;
     }
 
     /**

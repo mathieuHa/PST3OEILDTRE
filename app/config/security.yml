@@ -14,7 +14,7 @@ security:
                 security: false
 
             register:
-                pattern: /api/user
+                pattern: /api/users
                 security: false
 
             main:

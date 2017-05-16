@@ -10,6 +10,11 @@ sensors:
     resource: DTRE\OeilBundle\Controller\SensorController
     prefix:   /api
 
+command:
+    type:     rest
+    resource: DTRE\OeilBundle\Controller\CommandController
+    prefix:   /api
+
 image:
     type:     rest
     resource: DTRE\OeilBundle\Controller\ImageController

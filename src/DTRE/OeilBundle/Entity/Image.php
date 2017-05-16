@@ -115,30 +115,6 @@ class Image
     }
 
     /**
-     * Set auteur
-     *
-     * @param string $auteur
-     *
-     * @return Image
-     */
-    public function setAuteur($auteur)
-    {
-        $this->auteur = $auteur;
-
-        return $this;
-    }
-
-    /**
-     * Get auteur
-     *
-     * @return string
-     */
-    public function getAuteur()
-    {
-        return $this->auteur;
-    }
-
-    /**
      * Set urlth
      *
      * @param string $urlth

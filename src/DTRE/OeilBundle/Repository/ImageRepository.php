@@ -41,6 +41,18 @@ class ImageRepository extends AbstractRepository
             ->getOneOrNullResult();
     }
 
+    public function findImageUser($id)
+    {
+        $qb = $this->createQueryBuilder("i");
+        $qb->select('i')
+            ->join('i.user','u')
+            ->where('u.id = :id')
+            ->setParameter('id', $id);
+
+        return $qb->getQuery()
+            ->getResult();
+    }
+
     public function getByWeek(\Datetime $date)
     {
         $from = new \DateTime($date->format("Y-m-d")." 00:00:00");

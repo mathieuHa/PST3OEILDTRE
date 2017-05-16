@@ -29,6 +29,20 @@ class DataRepository extends \Doctrine\ORM\EntityRepository
         return $result;
     }
 
+    public function getLastData($id)
+    {
+        $qb = $this->createQueryBuilder("d");
+        $qb
+            ->join('d.sensor', 's')
+            ->where('s.id = :id')
+            ->orderBy('d.date', 'DESC')
+            ->setParameter('id', $id)
+        ;
+        $result = $qb->getQuery()->setMaxResults(1)->getOneOrNullResult();
+
+        return $result;
+    }
+
     public function getAllByDay(\Datetime $date)
     {
         $from = new \DateTime($date->format("Y-m-d")." 00:00:00");

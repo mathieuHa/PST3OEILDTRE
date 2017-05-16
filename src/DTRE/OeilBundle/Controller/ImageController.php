@@ -48,10 +48,10 @@ class ImageController extends Controller
     }
 
     /**
-     * @Rest\View(statusCode=Response::HTTP_OK)
+     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"image"})
      * @Rest\QueryParam(
-     *     name="keyword",
-     *     requirements="[a-zA-Z0-9]",
+     *     name="id user",
+     *     requirements="\d+",
      *     nullable=true,
      *     description="The keyword to search for."
      * )
@@ -86,6 +86,22 @@ class ImageController extends Controller
     }
 
     /**
+     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"image"})
+     * @Rest\Get("/media/images/{id}")
+     */
+    public function getImagesUserAction(Request $request)
+    {
+        $id = $request->get('id');
+
+        $imagesUser = $this
+            ->getDoctrine()
+            ->getRepository('DTREOeilBundle:Image')
+            ->findImageUser($id);
+
+        return $imagesUser;
+    }
+
+    /**
      * @Rest\View(statusCode=Response::HTTP_OK)
      * @Rest\Get("/media/images/day")
      * @Rest\QueryParam(name="day", requirements="\d+", default="1", description="jour")
@@ -110,7 +126,7 @@ class ImageController extends Controller
 
     /**
      * @Rest\View(statusCode=Response::HTTP_OK)
-     * @Rest\Get("/media/images/shot")
+     * @Rest\Get("/media/shot")
      * @Rest\QueryParam(name="id", requirements="\d+", default="1", description="id")
      */
     public function getPictureAction(ParamFetcher $paramFetcher)
@@ -133,6 +149,17 @@ class ImageController extends Controller
 
     public function takePicture ($id, $token){
         $process = new Process('/bin/sh /home/pi/oeildtre/pst3oeildtrearduino/pic.sh '.$id.' '.$token);
+        $process->run();
+
+        if (!$process->isSuccessful()) {
+            throw new ProcessFailedException($process);
+        }
+
+        echo $process->getOutput();
+    }
+
+    public function deletePicture ($url, $urlth){
+        $process = new Process('/home/pi/oeildtre/pst3oeildtrearduino/delete_pic '.$url.' '.$urlth);
         $process->run();
 
         if (!$process->isSuccessful()) {
@@ -261,6 +288,8 @@ class ImageController extends Controller
         if (NULL === $image) {
             return;
         }
+
+        $this->deletePicture($image->getUrl(), $image->getUrlth());
 
         $em->remove($image);
         $em->flush();

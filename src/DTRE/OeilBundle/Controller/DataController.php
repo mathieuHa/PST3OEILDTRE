@@ -49,6 +49,23 @@ class DataController extends Controller
 
     /**
      * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"data"})
+     * @Rest\Get("/sensors/{id}/data/now")
+     */
+    public function getDataNowAction(Request $request)
+    {
+        $em = $this
+            ->getDoctrine()
+            ->getManager();
+        $id =$request->get('id');
+        $data = $em
+            ->getRepository('DTREOeilBundle:Data')
+            ->getLastData($id);
+
+        return $data;
+    }
+
+    /**
+     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"data"})
      * @Rest\Get("/sensors/data/day")
      * @Rest\QueryParam(name="day", requirements="\d+", default="1", description="jour")
      * @Rest\QueryParam(name="month", requirements="\d+", default="1", description="month")

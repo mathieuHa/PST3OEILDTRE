@@ -34,3 +34,11 @@ DTRE\OeilBundle\Entity\Image:
             - Type: string
         date:
             - DateTime: ~
+
+DTRE\OeilBundle\Entity\Message:
+    properties:
+        text:
+            - NotBlank: ~
+            - Type: string
+        date:
+            - DateTime: ~

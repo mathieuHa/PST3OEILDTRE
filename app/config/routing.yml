@@ -20,6 +20,11 @@ image:
     resource: DTRE\OeilBundle\Controller\ImageController
     prefix:   /api
 
+message:
+    type:     rest
+    resource: DTRE\OeilBundle\Controller\ImageController
+    prefix:   /api
+
 data:
     type:     rest
     resource: DTRE\OeilBundle\Controller\DataController

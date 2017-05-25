@@ -1,11 +1,11 @@
 DTRE\OeilBundle\Entity\User:
     attributes:
         id:
-            groups: ['user', 'preference', 'auth-token', 'image']
+            groups: ['user', 'preference', 'auth-token', 'image', 'message']
         login:
-            groups: ['user', 'preference', 'auth-token', 'image']
+            groups: ['user', 'preference', 'auth-token', 'image', 'message']
         mail:
-            groups: ['user', 'preference', 'auth-token', 'image']
+            groups: ['user', 'preference', 'auth-token', 'image', 'message']
 
 DTRE\OeilBundle\Entity\AuthToken:
     attributes:
@@ -60,6 +60,17 @@ DTRE\OeilBundle\Entity\Image:
         url:
             groups: ['image']
         urlth:
+            groups: ['image']
+        user:
+            groups: ['image']
+
+DTRE\OeilBundle\Entity\Image:
+    attributes:
+        id:
+            groups: ['image']
+        date:
+            groups: ['image']
+        text:
             groups: ['image']
         user:
             groups: ['image']

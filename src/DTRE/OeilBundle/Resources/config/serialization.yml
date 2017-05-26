@@ -6,6 +6,8 @@ DTRE\OeilBundle\Entity\User:
             groups: ['user', 'preference', 'auth-token', 'image', 'message']
         mail:
             groups: ['user', 'preference', 'auth-token', 'image', 'message']
+        color:
+            groups: ['user', 'preference', 'auth-token', 'image', 'message']
 
 DTRE\OeilBundle\Entity\AuthToken:
     attributes:
@@ -64,13 +66,13 @@ DTRE\OeilBundle\Entity\Image:
         user:
             groups: ['image']
 
-DTRE\OeilBundle\Entity\Image:
+DTRE\OeilBundle\Entity\Message:
     attributes:
         id:
-            groups: ['image']
+            groups: ['message']
         date:
-            groups: ['image']
+            groups: ['message']
         text:
-            groups: ['image']
+            groups: ['message']
         user:
-            groups: ['image']
+            groups: ['message']

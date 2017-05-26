@@ -11,6 +11,7 @@ use DTRE\OeilBundle\Entity\Sensor;
 use DTRE\OeilBundle\Form\DailyDataType;
 use DTRE\OeilBundle\Form\DataType;
 use DTRE\OeilBundle\Form\ImageType;
+use DTRE\OeilBundle\Form\MessageType;
 use DTRE\OeilBundle\Form\SensorType;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\View\View;
@@ -65,7 +66,7 @@ class MessageController extends Controller
      * @Rest\QueryParam(
      *     name="limit",
      *     requirements="\d+",
-     *     default="10",
+     *     default="100",
      *     description="Max number of image per page."
      * )
      * @Rest\QueryParam(
@@ -76,12 +77,15 @@ class MessageController extends Controller
      * )
      * @Rest\Get("/chat/messages")
      */
-    public function getMessagesAction(ParamFetcherInterface $paramFetcher)
+    public function getMessagesAction(ParamFetcher $paramFetcher)
     {
+        $limit = $paramFetcher->get('limit');
+        $offset = $paramFetcher->get('offset');
+
         $messages = $this
             ->getDoctrine()
             ->getRepository('DTREOeilBundle:Message')
-            ->findAll();
+            ->findMessages($limit, $offset);
 
         return $messages;
     }
@@ -113,7 +117,7 @@ class MessageController extends Controller
         $id = $paramFetcher->get('id');
         $message->setDate(new \DateTime());
 
-        $form = $this->createForm(ImageType::class, $message);
+        $form = $this->createForm(MessageType::class, $message);
 
         $form->submit($request->request->all());
 
@@ -162,6 +166,7 @@ class MessageController extends Controller
         $em->remove($message);
         $em->flush();
     }
+
 
     /**
      * @Rest\View(statusCode=Response::HTTP_OK)

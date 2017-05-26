@@ -11,12 +11,14 @@ use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process; // alias pour toutes les annotations
+use DTRE\OeilBundle\Form\CredentialsType;
 
 
 class UserController extends Controller
 {
 
-    public function createUserOnDisk ($name){
+    public function createUserOnDisk($name)
+    {
         $process = new Process('/bin/sh /home/pi/oeildtre/pst3oeildtrearduino/new_user.sh ' . $name);
         $process->run();
 
@@ -26,6 +28,60 @@ class UserController extends Controller
 
         return $process->getOutput();
     }
+
+    /**
+     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"user"})
+     * @Rest\Get("/users/new-pass/{id}")
+     */
+    public function getUserNewPassAction(Request $request)
+    {
+        $user = $this
+            ->getDoctrine()
+            ->getRepository('DTREOeilBundle:User')
+            ->find($request->get('id')); // L'identifiant en tant que paramètre n'est plus nécessaire
+        if (NULL === $user) {
+            return View::create(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
+        }
+        $mail = $user->getMail();
+        $name = $user->getLogin();
+        $password = $this->generateRandomString();
+        $user->setPlainpassword($password);
+
+        $encoder = $this->get('security.password_encoder');
+        // le mot de passe en claire est encodé avant la sauvegarde
+        $encoded = $encoder->encodePassword($user, $password);
+        $user->setPassword($encoded);
+
+        $message = \Swift_Message::newInstance()
+            ->setSubject('Oeil DTRE Nouveau mot de passe')
+            ->setFrom('oeildtre@gmail.com')
+            ->setTo($mail)
+            ->setBody(
+                $this->renderView(
+                // app/Resources/views/Emails/registration.html.twig
+                    'Template/new_pass.html.twig',
+                    array('name' => $name, 'password' => $password)
+                ),
+                'text/html'
+            );
+        $this->get('mailer')->send($message);
+        $em = $this->get('doctrine.orm.entity_manager');
+        $em->persist($user);
+        $em->flush();
+        return $user;
+    }
+
+
+    function generateRandomString($length = 10) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
+    }
+
     /**
      * @Rest\View(statusCode=Response::HTTP_CREATED, serializerGroups={"user"})
      * @Rest\Post("/users")
@@ -42,6 +98,7 @@ class UserController extends Controller
             // le mot de passe en claire est encodé avant la sauvegarde
             $encoded = $encoder->encodePassword($user, $user->getPlainPassword());
             $user->setPassword($encoded);
+            $user->setColor("000000");
             //$this->createUserOnDisk($user->getLogin());
 
             $em = $this->get('doctrine.orm.entity_manager');

@@ -28,6 +28,19 @@ class MessageRepository extends AbstractRepository
         return $this->paginate($qb, $limit, $offset);
     }
 
+    public function findMessages($limit, $offset)
+    {
+        $qb = $this
+            ->createQueryBuilder('m')
+            ->select('m')
+            ->orderBy('m.date', 'ASC')
+            ->setMaxResults($limit)
+            //->setFirstResult($offset*$limit)
+        ;
+
+        return $qb->getQuery()->getResult();
+    }
+
     public function getByDay(\Datetime $date)
     {
         $dateDay= new \DateTime($date->format("Y-m-d"));

@@ -40,6 +40,13 @@ class User implements UserInterface
      */
     private $password;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="color", type="string", length=255)
+     */
+    private $color;
+
     private $plainpassword;
     /**
      * @var string
@@ -119,6 +126,27 @@ class User implements UserInterface
     public function getPassword()
     {
         return $this->password;
+    }
+    /**
+     * Set color
+     *
+     * @param string $color
+     *
+     * @return User
+     */
+    public function setColor($color)
+    {
+        $this->color = $color;
+        return $this;
+    }
+    /**
+     * Get color
+     *
+     * @return string
+     */
+    public function getColor()
+    {
+        return $this->color;
     }
     /**
      * Set plainpassword

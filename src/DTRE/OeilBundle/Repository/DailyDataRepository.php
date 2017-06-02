@@ -12,14 +12,18 @@ use DateInterval;
  */
 class DailyDataRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function getDataDay(\Datetime $date)
+    public function getDataDay(\Datetime $date, $id)
     {
         $dateDay= new \DateTime($date->format("Y-m-d"));
         $qb = $this->createQueryBuilder("d");
 
         $qb->select('d')
-            ->where('d.date = :date')
-            ->setParameter('date', $dateDay);
+            ->join('d.sensor', 's')
+            ->where('s.id = :id')
+            ->andWhere('d.date = :date')
+            ->setParameter('date', $dateDay)
+            ->setParameter('id', $id);
+
 
         return $qb->getQuery()
             ->getOneOrNullResult();

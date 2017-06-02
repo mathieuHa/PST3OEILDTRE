@@ -32,13 +32,23 @@ class MessageRepository extends AbstractRepository
     {
         $qb = $this
             ->createQueryBuilder('m')
-            ->select('m')
-            ->orderBy('m.date', 'ASC')
-            ->setMaxResults($limit)
-            //->setFirstResult($offset*$limit)
+            ->select('COUNT(m)')
         ;
 
-        return $qb->getQuery()->getResult();
+        $nbMessage = $qb->getQuery()->getSingleScalarResult();
+
+        $qb2 = $this
+            ->createQueryBuilder('m')
+            ->select('m')
+            ->OrderBy('m.date', 'ASC')
+            ->setMaxResults($limit)
+            ->setFirstResult($nbMessage-$limit)
+        ;
+
+
+        //var_dump($qb->getQuery());
+
+        return $qb2->getQuery()->getResult();
     }
 
     public function getByDay(\Datetime $date)

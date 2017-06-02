@@ -20,7 +20,7 @@ use FOS\RestBundle\Request\ParamFetcher;
 class DataController extends Controller
 {
     public function SensorNotFound(){
-        return View::create(['message' => 'Sensor not found'], Response::HTTP_NOT_FOUND);;
+        return View::create(['message' => 'Sensor not found'], Response::HTTP_NOT_FOUND);
     }
 
     /**
@@ -229,12 +229,17 @@ class DataController extends Controller
      */
     public function postDataAction(Request $request)
     {
+        $id = $request->get('id');
         $sensor = $this
             ->getDoctrine()
             ->getRepository('DTREOeilBundle:Sensor')
-            ->find($request->get('id'));
+            ->find($id);
 
+        if (NULL === $sensor) {
+            return $this->SensorNotFound();
+        }
         $data = new Data();
+        $data->setDate(new \DateTime());
         $form = $this->createForm(DataType::class, $data);
 
         $form->submit($request->request->all());
@@ -246,7 +251,7 @@ class DataController extends Controller
             $dailyData = $this
                 ->getDoctrine()
                 ->getRepository('DTREOeilBundle:DailyData')
-                ->getDataDay($data->getDate());
+                ->getDataDay($data->getDate(),$id);
             $dateDay= new \DateTime($data->getDate()->format("Y-m-d"));
             $value = $data->getValue();
             if ($dailyData!=null){

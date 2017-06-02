@@ -42,3 +42,11 @@ DTRE\OeilBundle\Entity\Message:
             - Type: string
         date:
             - DateTime: ~
+
+DTRE\OeilBundle\Entity\Data:
+    properties:
+        value:
+            - NotBlank: ~
+            - Type: integer
+        date:
+            - DateTime: ~

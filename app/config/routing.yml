@@ -22,7 +22,7 @@ image:
 
 message:
     type:     rest
-    resource: DTRE\OeilBundle\Controller\ImageController
+    resource: DTRE\OeilBundle\Controller\MessageController
     prefix:   /api
 
 data:

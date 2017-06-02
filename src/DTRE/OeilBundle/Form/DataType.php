@@ -14,11 +14,7 @@ class DataType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('value')->add('date',
-            DateTimeType::class,array(
-                'widget' => 'single_text',
-                'format' => 'yyyy-MM-dd  HH:mm'
-            ));
+        $builder->add('value');
     }
     
     /**

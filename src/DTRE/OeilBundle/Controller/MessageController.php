@@ -29,7 +29,7 @@ use Symfony\Component\Process\Process;
 class MessageController extends Controller
 {
     public function MessageNotFound(){
-        return View::create(['message' => 'Image not found'], Response::HTTP_NOT_FOUND);
+        return View::create(['message' => 'Message not found'], Response::HTTP_NOT_FOUND);
     }
 
     /**

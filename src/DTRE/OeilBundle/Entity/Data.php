@@ -41,6 +41,7 @@ class Data
     private $sensor;
 
 
+
     /**
      * Get id
      *

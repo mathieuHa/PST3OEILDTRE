@@ -96,11 +96,9 @@ class UserController extends Controller
         if ($form->isValid()) {
             $encoder = $this->get('security.password_encoder');
             // le mot de passe en claire est encodé avant la sauvegarde
-            $encoded = $encoder->encodePassword($user, $user->getPlainPassword());
+            $encoded = $encoder->encodePassword($user, $this->generateRandomString(25));
             $user->setPassword($encoded);
             $user->setColor("000000");
-            //$this->createUserOnDisk($user->getLogin());
-
             $em = $this->get('doctrine.orm.entity_manager');
             $em->persist($user);
             $em->flush();
